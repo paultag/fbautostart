@@ -32,10 +32,11 @@ using namespace std;
 
 int main ( int argc, char ** argv ) {
 	std::cout << "Launching on behalf of " << _ON_BEHALF_OF << std::endl;
-	std::vector<dot_desktop *> * files = loadDesktopFiles(getConfFiles(getConfDirs()));
+	std::vector<dot_desktop *> * files = loadDesktopFiles(getConfFiles(getConfDirs())); // XXX: This kinda sucks. Fix me if you have freetime.
 
 	for ( unsigned int i = 0; i < files->size(); ++i ) {
-		files->at(i)->load();
+		files->at(i)->load();  // I'm doing this so you can load on-demand
+		//                        if you need to. I might change that later. ( Load, fork, load, fork )
 	}
 
 	return 0;

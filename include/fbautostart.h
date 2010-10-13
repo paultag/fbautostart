@@ -127,9 +127,9 @@ void fixHomePathing( std::vector<std::string> * locs, std::string home ) {
 			locs->at(i).replace(0, 1, home );
 			debug(locs->at(i));
 		} else {
-			debug("");
-			debug("Path looks OK. Path follows.");
-			debug(locs->at(i));
+			// debug("");
+			// debug("Path looks OK. Path follows.");
+			// debug(locs->at(i));
 		}
 	}
 }
@@ -154,6 +154,7 @@ std::vector<std::string> * getConfDirs() {
 			xdg_home = _DEFAULT_XDG_HOME;
 		}
 
+		/*
 		debug("");
 		debug( "XDG Home: " );
 		debug( xdg_home );
@@ -166,12 +167,12 @@ std::vector<std::string> * getConfDirs() {
 		debug( "User Home: " );
 		debug( uzr_home );
 		debug("");
+		*/
 
 		breakupLine( loc, std::string( xdg_dirs ) );
 		breakupLine( loc, std::string( xdg_home ) );
-		debug("Using the following array to find files:");
-
-		debug(loc);
+		// debug("Using the following array to find files:");
+		// debug(loc);
 
 		for ( unsigned int i = 0; i < loc->size(); ++i )
 			fixHomePathing( loc, uzr_home );
@@ -196,7 +197,7 @@ std::vector<std::string> * getConfFiles( std::vector<std::string> * dirs ) {
 				debug("");
 				debug("Looks like the dir does not exist. Dir follows.");
 				debug( dirs->at(i) );
-				debug("I'm going to keep this quiet. No big deal. Moving on.");
+				// debug("I'm going to keep this quiet. No big deal. Moving on.");
 			} else {
 				logError("");
 				logError("Oh no! Error opening directory! Directory, then Errorno follows: ");
@@ -204,9 +205,9 @@ std::vector<std::string> * getConfFiles( std::vector<std::string> * dirs ) {
 				logError(errno);
 			}
 		} else {
-			debug( "" );
-			debug( "Processing Directory:" );
-			debug( dirs->at(i) );
+			// debug( "" );
+			// debug( "Processing Directory:" );
+			// debug( dirs->at(i) );
 			while ((dirp = readdir(dp)) != NULL) { // for every file in the directory
 				std::string file(dirp->d_name);
 				if ( file != "." && file != ".."  ) { // make sure we don't use . / ..
@@ -222,12 +223,12 @@ std::vector<std::string> * getConfFiles( std::vector<std::string> * dirs ) {
 	return files;
 }
 
-std::vector<dot_desktop *> * loadDesktopFiles( std::vector<std::string> * files ) {
-	std::vector<dot_desktop *> * object_array = new std::vector<dot_desktop *>();
-	for ( unsigned int i = 0; i < files->size(); ++i ) {
-		object_array->push_back(new dot_desktop(files->at(i)));
+std::vector<dot_desktop *> * loadDesktopFiles( std::vector<std::string> * files ) { // load the strings to objects
+	std::vector<dot_desktop *> * object_array = new std::vector<dot_desktop *>(); // return array
+	for ( unsigned int i = 0; i < files->size(); ++i ) { // for each file string
+		object_array->push_back(new dot_desktop(files->at(i))); // make a new object
 	}
-	return object_array;
+	return object_array; // give it back!
 }
 
 #endif

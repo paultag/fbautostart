@@ -21,6 +21,29 @@
  *
  */
 
+/*
+ * BIG BOLDFACE WARNING:
+ *  BIG BOLDFACE WARNING:
+ *   BIG BOLDFACE WARNING:
+ *
+ * This is *NOT* a full implementation of the
+ * .desktop spec. If you decide to use this code
+ * for anything outside of basic basic use ( read:
+ * what we're using it for )
+ *
+ * In fact, this is almost as bare bones as I can make it
+ * It will break on more then one directive, and barf to stderr
+ * when it finds something it thinks is disgusting.
+ * 
+ * It also does not trim strings, so there may be whitespace crap
+ * screwing stuff up.
+ *
+ * This needs some love. Patches welcome. Don't suggest
+ * the GNOME library. That relies on GTK+. WTF, really GNOME.
+ *   -- PRT
+ * 
+ */
+
 #define _DOT_DESKTOP_GIVEAWAY "[Desktop Entry]"
 
 #include <dot_desktop.h>
@@ -41,13 +64,13 @@ bool dot_desktop::validate() {
 	bool ret = false;
 	bool gah = true;
 
-	while ( gah && std::getline(fp_in, line) ) {
+	while ( gah && std::getline(fp_in, line) ) { // XXX: This sucks. Fix me.
 		if ( line.substr(0,strlen(_DOT_DESKTOP_GIVEAWAY)) == _DOT_DESKTOP_GIVEAWAY ) {
 			// debug("");
 			// debug("Found us a Desktop file!");
 			ret = true;
 			gah = false;
-		} else if ( line.substr(0,1) == "#" || line.substr(0,1) == "" ) {
+		} else if ( line.substr(0,1) == "#" || line.substr(0,1) == "" ) {  // XXX: This sucks. Fix me.
 			// ok. comment or whitespace
 		} else {
 			ret = false;
@@ -83,7 +106,7 @@ void dot_desktop::load() {
 					new_attr->value = data;
 					this->attr->push_back( new_attr );
 				} else if ( line.substr(0,1) == "[" && line.substr(line.length()-1,line.length()) == "]" ) {
-					// debug("Found a new header:");
+					// debug("Found a new header:"); // XXX: This sucks. Fix me.
 					// debug(line);
 				} else if ( line == "" ) {
 					// just a blank line.
@@ -103,10 +126,10 @@ void dot_desktop::load() {
 		logError( this->file );
 	}
 
-	debug("");
-	debug("Loaded up a file. Here's the name and count of attrbs.");
-	debug(this->file);
-	debug(this->attr->size());
+	// debug("");
+	// debug("Loaded up a file. Here's the name and count of attrbs.");
+	// debug(this->file);
+	// debug(this->attr->size());
 }
 
 std::string dot_desktop::getAttr( std::string s ){
