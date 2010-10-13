@@ -24,9 +24,15 @@
 #ifndef _DOT_DESKTOP_H
 #define _DOT_DESKTOP_H ohai
 
+class dot_desktop_attr {
+	public:
+		std::string attr;
+		std::string value;
+};
+
 class dot_desktop {
 	protected:
-		std::vector<std::string> * attr;
+		std::vector<dot_desktop_attr *> * attr;
 	public:
 		dot_desktop( std::string s );
 		void load();

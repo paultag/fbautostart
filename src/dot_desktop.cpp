@@ -24,3 +24,14 @@
 #include <dot_desktop.h>
 
 
+dot_desktop::dot_desktop( std::string s ) {
+	this->attr = new std::vector<dot_desktop_attr *>();
+}
+
+void dot_desktop::load() {
+	// pull file data in. set as dot_desktop_attr objects
+}
+
+std::string dot_desktop::getAttr( std::string s ){
+	// get off the vector
+}
