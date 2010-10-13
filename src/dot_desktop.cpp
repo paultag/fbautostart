@@ -60,10 +60,8 @@ dot_desktop::dot_desktop( std::string s ) {
 bool dot_desktop::validate() {
 	std::ifstream fp_in(this->file.c_str());
 	std::string line;
-
 	bool ret = false;
 	bool gah = true;
-
 	while ( gah && std::getline(fp_in, line) ) { // XXX: This sucks. Fix me.
 		if ( line.substr(0,strlen(_DOT_DESKTOP_GIVEAWAY)) == _DOT_DESKTOP_GIVEAWAY ) {
 			// debug("");
@@ -83,10 +81,8 @@ bool dot_desktop::validate() {
 			debug(line);
 		}
 	}
-
 	fp_in.close();
 	return ret;
-
 }
 
 void dot_desktop::load() {

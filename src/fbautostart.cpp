@@ -30,24 +30,38 @@
 
 using namespace std;
 
+void runApplication( std::string appl ) {
+
+	std::cout << "Doing: " << appl << " " << std::endl;
+
+	pid_t pID = fork();
+	if (pID == 0) {
+		system( appl.c_str() );
+		exit(1);
+	} else if (pID < 0) {
+		logError( "" );
+		logError( "Failed to fork " );
+		logError( appl );
+		exit(1);
+	} else {
+		debug("Whoh! I'm living!");
+		return;
+	}
+}
+
 int main ( int argc, char ** argv ) {
 	std::cout << "Launching on behalf of " << _ON_BEHALF_OF << std::endl;
 	std::vector<dot_desktop *> * files = loadDesktopFiles(getConfFiles(getConfDirs())); // XXX: This kinda sucks. Fix me if you have freetime.
-
 	for ( unsigned int i = 0; i < files->size(); ++i ) {
 		files->at(i)->load();  // I'm doing this so you can load on-demand
 		//                        if you need to. I might change that later. ( Load, fork, load, fork )
 	}
-
 	for ( unsigned int i = 0; i < files->size(); ++i ) {
 		dot_desktop * d = files->at(i);
 		bool happy = true;
-
 		// do only / not checks.
-
 		std::string only = d->getAttr("OnlyShowIn");
 		std::string noti = d->getAttr("NotShowIn");
-
 		if ( only != "" ) {
 			int index = -1;
 			index = only.find(_ON_BEHALF_OF);
@@ -58,7 +72,6 @@ int main ( int argc, char ** argv ) {
 				debug(d->getAttr("Name"));
 			}
 		}
-
 		if ( noti != "" ) { // NAUGHTY NAUGHTY
 			int index = -1;
 			index = noti.find(_ON_BEHALF_OF);
@@ -69,18 +82,13 @@ int main ( int argc, char ** argv ) {
 				debug(d->getAttr("Name"));
 			}
 		}
-
 		if ( d->getAttr("Hidden") == "" && happy ) {
 			std::string appl = d->getAttr("Exec");
 			if ( appl != "" ) {
-				std::cout << appl << std::endl;
+				runApplication( appl );
 			}
-
 		} // otherwise, we're out of here.
 	}
-
 	return 0;
 }
-
-
 
