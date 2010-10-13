@@ -30,7 +30,11 @@
 using namespace std;
 
 int main ( int argc, char ** argv ) {
+	std::cout << "Launching on behalf of " << _ON_BEHALF_OF << std::endl;
+
 	std::vector<std::string> * files = getConfFiles(getConfDirs());
 	debug("");
 	debug(files);
+
+	return 0;
 }

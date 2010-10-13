@@ -22,9 +22,11 @@
  */
 
 #ifndef _DEBUG_MODE
-
 #define _DEBUG_MODE 0
+#endif
 
+#ifndef _ON_BEHALF_OF
+#define _ON_BEHALF_OF "FLUXBOX"
 #endif
 
 #include <sys/types.h>
@@ -123,9 +125,8 @@ void fixHomePathing( std::vector<std::string> * locs, std::string home ) {
 std::vector<std::string> * getConfDirs() {
 	std::vector<std::string> * loc = new std::vector<std::string>(); // locations to look
 
-	const char * xdg_home = getenv("XDG_CONFIG_HOME");
-	const char * xdg_dirs = getenv("XDG_CONFIG_DIRS");
-
+	const char * xdg_home = getenv("XDG_CONFIG_HOME"); // See the spec for why
+	const char * xdg_dirs = getenv("XDG_CONFIG_DIRS"); // I'm using what I'm using.
 	const char * uzr_home = getenv("HOME");
 
 	if ( uzr_home != NULL ) {
