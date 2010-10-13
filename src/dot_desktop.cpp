@@ -73,25 +73,27 @@ void dot_desktop::load() {
 
 		while ( std::getline(fp_in, line) ) {
 			int index = -1;
-			index = line.find("=");
-			if ( index > 0 ) {
-				std::string id   = line.substr(0,index);
-				std::string data = line.substr(index+1,strlen(line.c_str()));
-				dot_desktop_attr * new_attr = new dot_desktop_attr;
-				new_attr->attr  = id;
-				new_attr->value = data;
-				this->attr->push_back( new_attr );
-			} else if ( line.substr(0,1) == "[" && line.substr(line.length()-1,line.length()) == "]" ) {
-				// debug("Found a new header:");
-				// debug(line);
-			} else if ( line == "" ) {
-				// just a blank line.
-			} else {
-				logError("");
-				logError( "We've got an issue with the following file:" );
-				logError( this->file );
-				logError( "Line in question is: " );
-				logError( line );
+			if ( line.substr(0,1) != "#" ) {
+				index = line.find("=");
+				if ( index > 0 ) {
+					std::string id   = line.substr(0,index);
+					std::string data = line.substr(index+1,strlen(line.c_str()));
+					dot_desktop_attr * new_attr = new dot_desktop_attr;
+					new_attr->attr  = id;
+					new_attr->value = data;
+					this->attr->push_back( new_attr );
+				} else if ( line.substr(0,1) == "[" && line.substr(line.length()-1,line.length()) == "]" ) {
+					// debug("Found a new header:");
+					// debug(line);
+				} else if ( line == "" ) {
+					// just a blank line.
+				} else {
+					logError("");
+					logError( "We've got an issue with the following file:" );
+					logError( this->file );
+					logError( "Line in question is: " );
+					logError( line );
+				}
 			}
 		}
 		fp_in.close();
