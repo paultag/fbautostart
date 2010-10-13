@@ -21,6 +21,9 @@
  *
  */
 
+#ifndef _FBAUTOSTART_H
+#define _FBAUTOSTART_H ohai
+
 #ifndef _DEBUG_MODE
 #define _DEBUG_MODE 0
 #endif
@@ -28,6 +31,7 @@
 #ifndef _ON_BEHALF_OF
 #define _ON_BEHALF_OF "FLUXBOX"
 #endif
+
 
 #include <sys/types.h>
 #include <dirent.h>
@@ -39,6 +43,8 @@
 #include <stdio.h>
 
 #include <sstream>
+
+#include <dot_desktop.h>
 
 /*
  * OK. Here's some Spec text. I accessed this data on
@@ -94,6 +100,12 @@ void debug( std::vector<std::string> * foo ) {    // [l]: my debug line
 		for ( unsigned int i = 0; i < foo->size(); ++i ) {
 			std::cout << "[l]:   " << foo->at(i) << std::endl;
 		}
+	}
+}
+
+void debug( size_t foo ) {    // [l]: my debug line
+	if ( _DEBUG_MODE ) {
+		std::cout << "[l]: " << foo << std::endl;
 	}
 }
 
@@ -210,3 +222,12 @@ std::vector<std::string> * getConfFiles( std::vector<std::string> * dirs ) {
 	return files;
 }
 
+std::vector<dot_desktop *> * loadDesktopFiles( std::vector<std::string> * files ) {
+	std::vector<dot_desktop *> * object_array = new std::vector<dot_desktop *>();
+	for ( unsigned int i = 0; i < files->size(); ++i ) {
+		object_array->push_back(new dot_desktop(files->at(i)));
+	}
+	return object_array;
+}
+
+#endif

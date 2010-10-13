@@ -33,10 +33,12 @@ class dot_desktop_attr {
 class dot_desktop {
 	protected:
 		std::vector<dot_desktop_attr *> * attr;
+		std::string file;
 	public:
 		dot_desktop( std::string s );
 		void load();
 		std::string getAttr( std::string s );
+		bool validate();
 };
 
 #endif
