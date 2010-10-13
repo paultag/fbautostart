@@ -1,5 +1,5 @@
 2010-10-13  Paul Tagliamonte  <paultag@ubuntu.com>
 
-* src/fbautostart.cpp: Starting off the project with
-some base code. Nothing too fancy. Not yet.
-
+* Added an AUTHORS and COPYRIGHT file.
+* Starting off the project with some base code. Nothing
+too fancy. Not yet.
