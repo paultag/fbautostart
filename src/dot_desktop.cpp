@@ -133,6 +133,9 @@ void dot_desktop::load() {
 }
 
 std::string dot_desktop::getAttr( std::string s ){
-	// get off the vector
-	return NULL;
+	for ( unsigned int i = 0; i < this->attr->size(); ++i ) {
+		if ( this->attr->at(i)->attr == s )
+			return this->attr->at(i)->value;
+	}
+	return "";
 }

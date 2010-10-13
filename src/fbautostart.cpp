@@ -39,5 +39,48 @@ int main ( int argc, char ** argv ) {
 		//                        if you need to. I might change that later. ( Load, fork, load, fork )
 	}
 
+	for ( unsigned int i = 0; i < files->size(); ++i ) {
+		dot_desktop * d = files->at(i);
+		bool happy = true;
+
+		// do only / not checks.
+
+		std::string only = d->getAttr("OnlyShowIn");
+		std::string noti = d->getAttr("NotShowIn");
+
+		if ( only != "" ) {
+			int index = -1;
+			index = only.find(_ON_BEHALF_OF);
+			if ( index < 0 ) {
+				happy = false;
+				debug("");
+				debug("Not running the following app ( Excluded by a OnlyShowIn )");
+				debug(d->getAttr("Name"));
+			}
+		}
+
+		if ( noti != "" ) { // NAUGHTY NAUGHTY
+			int index = -1;
+			index = noti.find(_ON_BEHALF_OF);
+			if ( index < 0 ) {
+				happy = true;
+				debug("");
+				debug("Forced into running the following app ( Included by not being in NotShowIn )");
+				debug(d->getAttr("Name"));
+			}
+		}
+
+		if ( d->getAttr("Hidden") == "" && happy ) {
+			std::string appl = d->getAttr("Exec");
+			if ( appl != "" ) {
+				std::cout << appl << std::endl;
+			}
+
+		} // otherwise, we're out of here.
+	}
+
 	return 0;
 }
+
+
+

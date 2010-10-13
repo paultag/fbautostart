@@ -171,12 +171,14 @@ std::vector<std::string> * getConfDirs() {
 
 		breakupLine( loc, std::string( xdg_dirs ) );
 		breakupLine( loc, std::string( xdg_home ) );
+
 		// debug("Using the following array to find files:");
 		// debug(loc);
 
 		for ( unsigned int i = 0; i < loc->size(); ++i )
 			fixHomePathing( loc, uzr_home );
 
+		debug("");
 		debug("Using the following array to find files ( Expanded ): ");
 		debug(loc);
 
