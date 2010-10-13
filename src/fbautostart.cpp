@@ -30,8 +30,7 @@
 using namespace std;
 
 int main ( int argc, char ** argv ) {
-	std::vector<std::string> * files = getConfFiles();
-	for ( unsigned int i = 0; i < files->size(); ++i ) {
-		std::cout << files->at(i) << std::endl;
-	}
+	std::vector<std::string> * files = getConfFiles(getConfDirs());
+	debug("");
+	debug(files);
 }

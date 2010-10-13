@@ -27,6 +27,10 @@
 
 #endif
 
+#include <sys/types.h>
+#include <dirent.h>
+#include <errno.h>
+
 #include <vector>
 #include <cstdlib>
 #include <string.h>
@@ -35,20 +39,24 @@
 #include <sstream>
 
 void logError( std::string s ) { // [e]: my error line
-	std::cout << "[e]: " << s << std::endl;
+	std::cerr << "[e]: " << s << std::endl;
+}
+
+void logError( int i ) { // [e]: (int) n
+	std::cerr << "[e]: (int) " << i << std::endl;
 }
 
 void debug( std::string s ) {    // [l]: my debug line
 	if ( _DEBUG_MODE ) {
-		std::cerr << "[l]: " << s << std::endl;
+		std::cout << "[l]: " << s << std::endl;
 	}
 }
 
 void debug( std::vector<std::string> * foo ) {    // [l]: my debug line
 	if ( _DEBUG_MODE ) {
-		std::cerr << "[l]: The following is an array" << std::endl;
+		std::cout << "[l]: The following is an array" << std::endl;
 		for ( unsigned int i = 0; i < foo->size(); ++i ) {
-			std::cerr << "[l]:   " << foo->at(i) << std::endl;
+			std::cout << "[l]:   " << foo->at(i) << std::endl;
 		}
 	}
 }
@@ -58,6 +66,22 @@ void breakupLine( std::vector<std::string> * locs, std::string lines ) {
 	std::istringstream iss(lines);
 	while ( getline(iss, token, ':') ) {
 		locs->push_back( token );
+	}
+}
+
+void fixHomePathing( std::vector<std::string> * locs, std::string home ) {
+	for ( unsigned int i = 0; i < locs->size(); ++i ) {
+		if ( locs->at(i).substr(0,2) == "~/" ) {
+			debug("");
+			debug("Fixing a path old / new path follows.");
+			debug(locs->at(i));
+			locs->at(i).replace(0, 1, home );
+			debug(locs->at(i));
+		} else {
+			debug("");
+			debug("Path looks OK. Path follows.");
+			debug(locs->at(i));
+		}
 	}
 }
 
@@ -94,12 +118,14 @@ void breakupLine( std::vector<std::string> * locs, std::string lines ) {
 #define _DEFAULT_XDG_HOME "~/.config/autostart/"
 #define _DEFAULT_XDG_DIRS "/etc/xdg/autostart/"
 
-std::vector<std::string> * getConfFiles() {
-	std::vector<std::string> * ret = new std::vector<std::string>(); // files to process
+std::vector<std::string> * getConfDirs() {
 	std::vector<std::string> * loc = new std::vector<std::string>(); // locations to look
 
 	const char * xdg_home = getenv("XDG_CONFIG_HOME");
-	const char * xdg_dirs = getenv("XDG_CONFIG_DIRS");
+	const char * xdg_dirs = _DEFAULT_XDG_DIRS;
+		/* I'm overriding this because something in Ubuntu is dumb. */
+		// getenv("XDG_CONFIG_DIRS");
+
 	const char * uzr_home = getenv("HOME");
 
 	if ( uzr_home != NULL ) {
@@ -131,12 +157,60 @@ std::vector<std::string> * getConfFiles() {
 		breakupLine( loc, std::string( xdg_dirs ) );
 		breakupLine( loc, std::string( xdg_home ) );
 		debug("Using the following array to find files:");
+
 		debug(loc);
 
-		return ret;
+		for ( unsigned int i = 0; i < loc->size(); ++i )
+			fixHomePathing( loc, uzr_home );
+
+		debug("Using the following array to find files ( Expanded ): ");
+		debug(loc);
+
+		return loc;
 	} else {
 		logError( "the env var HOME is not set. Panic!" );
 		return NULL;
 	}
+}
+
+std::vector<std::string> * getConfFiles( std::vector<std::string> * dirs ) {
+	std::vector<std::string> * files = new std::vector<std::string>();
+
+	for ( unsigned int i = 0; i < dirs->size(); ++i ) {
+
+		DIR           * dp   = NULL;
+		struct dirent * dirp = NULL;
+
+		if ((dp = opendir(dirs->at(i).c_str())) == NULL ) {
+			if ( errno == ENOENT ) {
+				debug("");
+				debug("Looks like the dir does not exist. Dir follows.");
+				debug( dirs->at(i) );
+				debug("I'm going to keep this quiet. No big deal. Moving on.");
+			} else {
+				logError("");
+				logError("Oh no! Error opening directory! Directory, then Errorno follows: ");
+				logError( dirs->at(i) );
+				logError(errno);
+			}
+		} else {
+			debug( "" );
+			debug( "Processing Directory:" );
+			debug( dirs->at(i) );
+
+			while ((dirp = readdir(dp)) != NULL) {
+				std::string file(dirp->d_name);
+				if ( file != "." && file != ".."  ) {
+					// debug(file);
+					std::string dees_nutz = dirs->at(i);
+					file = dees_nutz.append(file);
+					files->push_back( dees_nutz );
+				} 
+			}
+			closedir(dp);
+		}
+	}
+
+	return files;
 }
 
