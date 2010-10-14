@@ -1,0 +1,56 @@
+fbautostart(1)
+========
+Paul Tagliamonte <paultag@ubuntu.com>
+v2.7.0, 14 October 2010
+:man source:   fbautostart.txt
+:man version:  {revision}
+:man manual:   fbautostart Manual  
+
+NAME
+----
+fbautostart - Autostart all XDG applications
+
+SYNOPSIS
+--------
+*fbautostart* ['options']
+
+DESCRIPTION
+-----------
+*fbautostart(1)* is an XDG complaint startup tool. This will
+go through the directories set up by the spec, and start all
+applications that match it's complied identifier.
+
+This tool has almost no dependencies and was written to be smart
+about this sort of stuff. There is a greater then average chance
+that you will find a bug, since it is a from-scratch implementation.
+Pleas report bugs.
+
+
+OPTIONS
+-------
+*--noexec*::
+	Do not execute any of the files,
+	rather, display what would have been run
+
+*--license*::
+	Show license information
+
+*--version*::
+	Show basic version information
+
+*--help*::
+	Show basic usage and flags
+
+EXAMPLE
+-------
+....
+fbautostart
+....
+
+AUTHORS
+-------
+Paul Tagliamonte <paultag@ubuntu.com> for fbautostart 2.7
+
+SEE ALSO
+--------
+fluxbox(1)
