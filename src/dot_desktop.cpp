@@ -56,6 +56,7 @@ dot_desktop::dot_desktop( std::string s, std::string id ) {
 	this->attr = new std::vector<dot_desktop_attr *>();
 	this->file = s;
 	this->id   = id;
+	this->load();
 }
 
 bool dot_desktop::validate() {

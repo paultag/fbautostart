@@ -62,7 +62,7 @@ void help() {
 	std::cout << "" << std::endl;
 }
 
-void runApplication( std::string appl ) {
+void runCommand( std::string appl ) {
 	std::cout << "Doing: " << appl << " " << std::endl;
 	pid_t pID = fork();
 
@@ -114,55 +114,48 @@ int main ( int argc, char ** argv ) {
 	std::vector<dot_desktop *> * files = new std::vector<dot_desktop *>();
 	std::vector<std::string>   * dirs  = new std::vector<std::string>  ();
 
-	if ( getConfDirs( dirs ) ) {
-		if ( getDesktopFiles( dirs, files ) ) {
-			//
-		}
-	}
-
-	//std::vector<dot_desktop *> * files = loadDesktopFiles(getConfFiles(getConfDirs())); // XXX: This kinda sucks. Fix me if you have freetime.
-
-	for ( unsigned int i = 0; i < files->size(); ++i ) {
-		files->at(i)->load();  // I'm doing this so you can load on-demand
-		//                        if you need to. I might change that later. ( Load, fork, load, fork )
-	}
-
-
-	for ( unsigned int i = 0; i < files->size(); ++i ) {
-		dot_desktop * d = files->at(i);
-		bool happy = true;
-		// do only / not checks.
-		std::string only = d->getAttr("OnlyShowIn");
-		std::string noti = d->getAttr("NotShowIn");
-		if ( only != "" ) {
-			int index = -1;
-			index = only.find(_ON_BEHALF_OF);
-			if ( index < 0 ) { // we're disabled
-				happy = false;
-				debug("");
-				debug("Not running the following app ( Excluded by a OnlyShowIn )");
-				debug(d->getAttr("Name"));
-			} // we're not disabled ( therefore enabled )
-		}
-		if ( noti != "" ) { // NAUGHTY NAUGHTY
-			int index = -1;
-			index = noti.find(_ON_BEHALF_OF);
-			if ( index >= 0 ) { // we're in 'dis
-				happy = false;
-				debug("");
-				debug("Forced into not running the following app ( Included by not being in NotShowIn )");
-				debug(d->getAttr("Name"));
-			} // we're not enabled ( therefore disabled )
-		}
-		if ( d->getAttr("Hidden") == "" && happy ) { // LET'S DO THIS
-			std::string appl = d->getAttr("Exec");
-			if ( appl != "" ) {
-				debug( "Processing File: ");
-				debug(d->getFile());
-				runApplication( appl );
+	if ( getConfDirs( dirs ) ) { // if no directories barf in our face
+		if ( getDesktopFiles( dirs, files ) ) { // and we load everything with glee
+			for ( unsigned int i = 0; i < files->size(); ++i ) { // run through all the files
+				dot_desktop * d = files->at(i);
+				bool happy = true;
+				std::string only = d->getAttr("OnlyShowIn"); // Only one per file ( per xdg )
+				std::string noti = d->getAttr("NotShowIn");  // We'll ignore that until we get fancy.
+				                                             // XXX: This is most likely a bug.
+				if ( only != "" ) { // even if an attr does not exist
+				                    // the object will return it as "".
+					int index = -1;
+					index = only.find(_ON_BEHALF_OF); // if we have our WM in the OnlyLaunch
+					if ( index < 0 ) { // we're disabled ( not found )
+						happy = false;
+						debug("");
+						debug("Not running the following app ( Excluded by a OnlyShowIn )");
+						debug(d->getAttr("Name"));
+					}
+				}
+				if ( noti != "" ) { // NAUGHTY NAUGHTY
+					int index = -1;
+					index = noti.find(_ON_BEHALF_OF); // if we have found our WM in the NotLaunch
+					if ( index >= 0 ) { // We're in Launch, stop from launching it.
+						happy = false;
+						debug("");
+						debug("Forced into not running the following app ( Included by not being in NotShowIn )");
+						debug(d->getAttr("Name"));
+					}
+				}
+				if ( d->getAttr("Hidden") == "" && happy ) { // If we sould exec
+					std::string appl = d->getAttr("Exec"); // get the line to run
+					if ( appl != "" ) { // if it's defined and ready to go
+						debug( "Processing File: ");
+						debug(d->getFile());
+						runCommand( appl ); // kickoff
+					}
+				} // otherwise, we're out of here.
 			}
-		} // otherwise, we're out of here.
+			return 0;
+		}
+		return 0xDEADBEEF;
 	}
-	return 0;
+	return 0xCAFEBABE;
 }
 

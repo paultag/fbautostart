@@ -127,10 +127,6 @@ void fixHomePathing( std::vector<std::string> * locs, std::string home ) {
 			debug(locs->at(i));
 			locs->at(i).replace(0, 1, home );
 			debug(locs->at(i));
-		} else {
-			// debug("");
-			// debug("Path looks OK. Path follows.");
-			// debug(locs->at(i));
 		}
 	}
 }
@@ -189,18 +185,18 @@ bool getDesktopFiles(
 				logError("Oh no! Error opening directory! Directory, then Errorno follows: ");
 				logError( dirs->at(i) );
 				logError(errno);
-				return false; // wtf is going on here?!
+				return false;
 			}
 		} else {
 			while ((dirp = readdir(dp)) != NULL) { // for every file in the directory
-				std::string file(dirp->d_name);
+				std::string file(dirp->d_name); // char arrays suck
 				if ( file != "." && file != ".."  ) { // make sure we don't use . / ..
-					// debug(file);
-
-					int dupe = -1;
+					int dupe = -1; // there's no -1st element, silly!
 
 					for ( unsigned int n = 0; n < files->size(); ++n ) {
-						if ( files->at(n)->getID() == file ) {
+						if ( files->at(n)->getID() == file ) { // make sure it's unique
+						                                       // ( as the xdg spec requires )
+
 							dupe = n; // there can be only one
 							          // dupe in the array, so it's
 							          // OK to think that there will
@@ -217,13 +213,9 @@ bool getDesktopFiles(
 					} else {
 						files->push_back( new_file );
 					}
-
-					debug("");
-					debug(file);
-					debug(dees_nutz);
 				} 
 			}
-			closedir(dp); // done with you. bieeeatch.
+			closedir(dp);
 		}
 	}
 	return true;
