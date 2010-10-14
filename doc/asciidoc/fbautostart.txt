@@ -1,5 +1,5 @@
 fbautostart(1)
-========
+==============
 Paul Tagliamonte <paultag@ubuntu.com>
 v2.7.0, 14 October 2010
 :man source:   fbautostart.txt
@@ -24,6 +24,16 @@ This tool has almost no dependencies and was written to be smart
 about this sort of stuff. There is a greater then average chance
 that you will find a bug, since it is a from-scratch implementation.
 Pleas report bugs.
+
+FILES
+-----
+*\~/.config/autostart*::
+	This folder contains the default user XDG dot-desktop files that
+        will be run ( unless it's overridden )
+
+*/etc/xdg*::
+	This folder contains the default system XDG dot-desktop files that
+        will be run ( unless it's overridden )
 
 
 OPTIONS
