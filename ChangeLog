@@ -1,5 +1,3 @@
-2010-10-13  Paul Tagliamonte  <paultag@ubuntu.com>
+2010-10-14  Paul Tagliamonte  <paultag@ubuntu.com>
 
-* Added an AUTHORS and COPYRIGHT file.
-* Starting off the project with some base code. Nothing
-too fancy. Not yet.
+* Adding in the basic code stuff. Initial Release.
