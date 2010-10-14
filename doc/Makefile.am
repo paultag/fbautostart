@@ -4,7 +4,7 @@
 CLEANFILES = fbautostart.1 
 MAINTAINERCLEANFILES = Makefile.in
 man_MANS = fbautostart.1
-EXTRA_DIST=fbautostart.1.in \
+EXTRA_DIST=fbautostart.1.in
 
 distclean-local:
 	rm -f *\~

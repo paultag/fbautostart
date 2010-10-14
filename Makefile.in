@@ -15,8 +15,6 @@
 
 @SET_MAKE@
 
-# Makefile.am for fbautostart - https://launchpad.net/fbautostart
-
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
@@ -201,6 +199,8 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+
+# Makefile.am for fbautostart - https://launchpad.net/fbautostart
 SUBDIRS = doc
 AM_CXXFLAGS = -I./include -Wall
 fbautostart_SOURCES = src/fbautostart.cpp
