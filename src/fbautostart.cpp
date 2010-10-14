@@ -25,7 +25,7 @@
 #include <vector>
 #include <string>
 
-#include <fbautostart.h>
+#include "fbautostart.h"
 #include "dot_desktop.cpp"
 
 #define _APPNAME_ "fbautostart"
@@ -68,7 +68,7 @@ void runApplication( std::string appl ) {
 
 	if (pID == 0) {
 		if ( ! noexec ) {
-			system( appl.c_str() );
+			exit(system( appl.c_str() ));
 		} else {
 			std::cout << "Would have run: " << appl << std::endl;
 		}
