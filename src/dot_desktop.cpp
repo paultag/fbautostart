@@ -46,15 +46,16 @@
 
 #define _DOT_DESKTOP_GIVEAWAY "[Desktop Entry]"
 
+
 #include <iostream>
 #include <fstream>
 
-#include "dot_desktop.h"
 #include "fbautostart.h"
 
-dot_desktop::dot_desktop( std::string s ) {
+dot_desktop::dot_desktop( std::string s, std::string id ) {
 	this->attr = new std::vector<dot_desktop_attr *>();
 	this->file = s;
+	this->id   = id;
 }
 
 bool dot_desktop::validate() {
@@ -121,15 +122,14 @@ void dot_desktop::load() {
 		logError( "We've got an issue with the following file:" );
 		logError( this->file );
 	}
-
-	// debug("");
-	// debug("Loaded up a file. Here's the name and count of attrbs.");
-	// debug(this->file);
-	// debug(this->attr->size());
 }
 
 std::string dot_desktop::getFile() {
 	return this->file;
+}
+
+std::string dot_desktop::getID() {
+	return this->id;
 }
 
 std::string dot_desktop::getAttr( std::string s ){

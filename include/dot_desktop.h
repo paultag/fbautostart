@@ -36,11 +36,12 @@ class dot_desktop {
 		std::string file;
 		std::string id;
 	public:
-		dot_desktop( std::string s );
+		dot_desktop( std::string s, std::string id );
 		void load();
-		std::string getAttr( std::string s );
+		std::string getAttr( std::string sx );
 		bool validate();
 		std::string getFile();
+		std::string getID();
 };
 
 #endif

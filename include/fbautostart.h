@@ -37,6 +37,7 @@
 #include <dirent.h>
 #include <errno.h>
 
+#include <algorithm>
 #include <vector>
 #include <cstdlib>
 #include <string.h>
@@ -134,8 +135,7 @@ void fixHomePathing( std::vector<std::string> * locs, std::string home ) {
 	}
 }
 
-std::vector<std::string> * getConfDirs() {
-	std::vector<std::string> * loc = new std::vector<std::string>(); // locations to look
+bool getConfDirs( std::vector<std::string> * loc ) {
 
 	const char * xdg_home = getenv("XDG_CONFIG_HOME"); // See the spec for why
 	const char * xdg_dirs = getenv("XDG_CONFIG_DIRS"); // I'm using what I'm using.
@@ -154,26 +154,8 @@ std::vector<std::string> * getConfDirs() {
 			xdg_home = _DEFAULT_XDG_HOME;
 		}
 
-		/*
-		debug("");
-		debug( "XDG Home: " );
-		debug( xdg_home );
-		debug("");
-
-		debug( "XDG Dirs: " );
-		debug( xdg_dirs );
-		debug("");
-
-		debug( "User Home: " );
-		debug( uzr_home );
-		debug("");
-		*/
-
 		breakupLine( loc, std::string( xdg_dirs ) );
 		breakupLine( loc, std::string( xdg_home ) );
-
-		// debug("Using the following array to find files:");
-		// debug(loc);
 
 		for ( unsigned int i = 0; i < loc->size(); ++i )
 			fixHomePathing( loc, uzr_home );
@@ -182,15 +164,17 @@ std::vector<std::string> * getConfDirs() {
 		debug("Using the following array to find files ( Expanded ): ");
 		debug(loc);
 
-		return loc;
+		return true;
 	} else {
 		logError( "the env var HOME is not set. Panic!" );
-		return NULL;
+		return false;
 	}
 }
 
-std::vector<std::string> * getConfFiles( std::vector<std::string> * dirs ) {
-	std::vector<std::string> * files = new std::vector<std::string>();
+bool getDesktopFiles(
+	std::vector<std::string>   * dirs,
+	std::vector<dot_desktop *> * files
+) {
 	for ( unsigned int i = 0; i < dirs->size(); ++i ) {
 		DIR           * dp   = NULL;
 		struct dirent * dirp = NULL;
@@ -205,32 +189,44 @@ std::vector<std::string> * getConfFiles( std::vector<std::string> * dirs ) {
 				logError("Oh no! Error opening directory! Directory, then Errorno follows: ");
 				logError( dirs->at(i) );
 				logError(errno);
+				return false; // wtf is going on here?!
 			}
 		} else {
-			// debug( "" );
-			// debug( "Processing Directory:" );
-			// debug( dirs->at(i) );
 			while ((dirp = readdir(dp)) != NULL) { // for every file in the directory
 				std::string file(dirp->d_name);
 				if ( file != "." && file != ".."  ) { // make sure we don't use . / ..
 					// debug(file);
+
+					int dupe = -1;
+
+					for ( unsigned int n = 0; n < files->size(); ++n ) {
+						if ( files->at(n)->getID() == file ) {
+							dupe = n; // there can be only one
+							          // dupe in the array, so it's
+							          // OK to think that there will
+							          // be only one 
+						}
+					}
+
 					std::string dees_nutz = dirs->at(i); // howabout deez nuts?
-					file = dees_nutz.append(file); // there's a dick joke somewhere in here
-					files->push_back( dees_nutz ); // so we have the full path for reading l8r
+					dees_nutz.append(file); // there's a dick joke somewhere in here
+					dot_desktop * new_file = new dot_desktop( dees_nutz, file );
+
+					if ( dupe >= 0 ) {
+						std::replace( files->begin(), files->end(), files->at(dupe), new_file );
+					} else {
+						files->push_back( new_file );
+					}
+
+					debug("");
+					debug(file);
+					debug(dees_nutz);
 				} 
 			}
 			closedir(dp); // done with you. bieeeatch.
 		}
 	}
-	return files;
-}
-
-std::vector<dot_desktop *> * loadDesktopFiles( std::vector<std::string> * files ) { // load the strings to objects
-	std::vector<dot_desktop *> * object_array = new std::vector<dot_desktop *>(); // return array
-	for ( unsigned int i = 0; i < files->size(); ++i ) { // for each file string
-		object_array->push_back(new dot_desktop(files->at(i))); // make a new object
-	}
-	return object_array; // give it back!
+	return true;
 }
 
 #endif

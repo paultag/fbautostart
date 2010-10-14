@@ -110,11 +110,24 @@ int main ( int argc, char ** argv ) {
 	}
 
 	std::cout << "Launching on behalf of " << _ON_BEHALF_OF << std::endl;
-	std::vector<dot_desktop *> * files = loadDesktopFiles(getConfFiles(getConfDirs())); // XXX: This kinda sucks. Fix me if you have freetime.
+
+	std::vector<dot_desktop *> * files = new std::vector<dot_desktop *>();
+	std::vector<std::string>   * dirs  = new std::vector<std::string>  ();
+
+	if ( getConfDirs( dirs ) ) {
+		if ( getDesktopFiles( dirs, files ) ) {
+			//
+		}
+	}
+
+	//std::vector<dot_desktop *> * files = loadDesktopFiles(getConfFiles(getConfDirs())); // XXX: This kinda sucks. Fix me if you have freetime.
+
 	for ( unsigned int i = 0; i < files->size(); ++i ) {
 		files->at(i)->load();  // I'm doing this so you can load on-demand
 		//                        if you need to. I might change that later. ( Load, fork, load, fork )
 	}
+
+
 	for ( unsigned int i = 0; i < files->size(); ++i ) {
 		dot_desktop * d = files->at(i);
 		bool happy = true;
