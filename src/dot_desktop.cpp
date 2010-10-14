@@ -46,11 +46,11 @@
 
 #define _DOT_DESKTOP_GIVEAWAY "[Desktop Entry]"
 
-#include <dot_desktop.h>
 #include <iostream>
 #include <fstream>
 
-#include <fbautostart.h>
+#include "dot_desktop.h"
+#include "fbautostart.h"
 
 dot_desktop::dot_desktop( std::string s ) {
 	this->attr = new std::vector<dot_desktop_attr *>();

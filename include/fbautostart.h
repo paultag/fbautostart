@@ -44,7 +44,7 @@
 
 #include <sstream>
 
-#include <dot_desktop.h>
+#include "dot_desktop.h"
 
 /*
  * OK. Here's some Spec text. I accessed this data on
