@@ -89,17 +89,14 @@ void processArgs( int argc, char ** args ) {
 			lecture();
 			exit(0);
 		}
-
 		if ( strcmp(args[i], "--version") == 0 ) {
 			version();
 			exit(0);
 		}
-
 		if ( strcmp(args[i], "--help") == 0 ) {
 			help();
 			exit(0);
 		}
-
 		if ( strcmp(args[i], "--noexec") == 0 )
 			noexec = true;
 	}
@@ -137,16 +134,18 @@ int main ( int argc, char ** argv ) {
 		if ( noti != "" ) { // NAUGHTY NAUGHTY
 			int index = -1;
 			index = noti.find(_ON_BEHALF_OF);
-			if ( index < 0 ) { // we're in 'dis
-				happy = true;
+			if ( index >= 0 ) { // we're in 'dis
+				happy = false;
 				debug("");
-				debug("Forced into running the following app ( Included by not being in NotShowIn )");
+				debug("Forced into not running the following app ( Included by not being in NotShowIn )");
 				debug(d->getAttr("Name"));
 			} // we're not enabled ( therefore disabled )
 		}
 		if ( d->getAttr("Hidden") == "" && happy ) { // LET'S DO THIS
 			std::string appl = d->getAttr("Exec");
 			if ( appl != "" ) {
+				debug( "Processing File: ");
+				debug(d->getFile());
 				runApplication( appl );
 			}
 		} // otherwise, we're out of here.

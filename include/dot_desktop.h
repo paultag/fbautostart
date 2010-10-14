@@ -34,11 +34,13 @@ class dot_desktop {
 	protected:
 		std::vector<dot_desktop_attr *> * attr;
 		std::string file;
+		std::string id;
 	public:
 		dot_desktop( std::string s );
 		void load();
 		std::string getAttr( std::string s );
 		bool validate();
+		std::string getFile();
 };
 
 #endif

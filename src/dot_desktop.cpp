@@ -128,6 +128,10 @@ void dot_desktop::load() {
 	// debug(this->attr->size());
 }
 
+std::string dot_desktop::getFile() {
+	return this->file;
+}
+
 std::string dot_desktop::getAttr( std::string s ){
 	for ( unsigned int i = 0; i < this->attr->size(); ++i ) {
 		if ( this->attr->at(i)->attr == s )
