@@ -35,8 +35,12 @@ using namespace std;
 
 bool noexec = false;
 
-void lecture() {
+void version() {
 	std::cout << "" << _APPNAME_ << " " << _VERSION_ << std::endl;
+}
+
+void lecture() {
+	version();
 	std::cout << "Copyright (C) 2010 Paul Tagliamonte" << std::endl;
 	std::cout << "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>" << std::endl;
 	std::cout << "This is free software: you are free to change and redistribute it." << std::endl;
@@ -46,14 +50,15 @@ void lecture() {
 void help() {
 	std::cout << "Usage: fbautostart [OPTION] ... " << std::endl;
 	std::cout << "Startup all applications according to the" << std::endl;
-	std::cout << "XDG Spec. " << std::endl;
+	std::cout << "XDG Spec. Right now, I'm hardcoded to think that" << std::endl;
+	std::cout << "I am doing this on behalf of '" << _ON_BEHALF_OF << "'" << std::endl;
 	std::cout << std::endl;
 	std::cout << "--license           Print out license information" << std::endl;
 	std::cout << "--help              Print out this message" << std::endl;
 	std::cout << "--noexec            Don't exec, just do a dry run" << std::endl;
 	std::cout << "" << std::endl;
 
-	std::cout << "Copyleft (c) Paul Tagliamonte, 2010, GNU GPLv3" << std::endl;
+	std::cout << "Copyleft (c) Paul Tagliamonte, 2010, GNU GPLv3+" << std::endl;
 	std::cout << "" << std::endl;
 }
 
@@ -82,6 +87,11 @@ void processArgs( int argc, char ** args ) {
 	for ( int i = 0; i < argc; ++i ) {
 		if ( strcmp(args[i], "--license") == 0 ) {
 			lecture();
+			exit(0);
+		}
+
+		if ( strcmp(args[i], "--version") == 0 ) {
+			version();
 			exit(0);
 		}
 
