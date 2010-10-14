@@ -62,25 +62,31 @@ void help() {
 	std::cout << "" << std::endl;
 }
 
-void runCommand( std::string appl ) {
-	std::cout << "Doing: " << appl << " " << std::endl;
-	pid_t pID = fork();
+int runCommand( std::string appl ) {
+	/*
+	 * The following is almost directly ripped off from
+	 * Fluxbox's implementation. ( at ak|ra's behest )
+	 */
 
-	if (pID == 0) {
-		if ( ! noexec ) {
-			exit(system( appl.c_str() ));
-		} else {
-			std::cout << "Would have run: " << appl << std::endl;
-		}
-		exit(1);
-	} else if (pID < 0) {
-		logError( "" );
-		logError( "Failed to fork " );
-		logError( appl );
-		exit(1);
+	pid_t pid = fork();
+	if (pid)
+		return pid;
+
+	// get shell path from the environment
+	// this process exits immediately, so we don't have to worry about memleaks
+	const char *shell = getenv("SHELL");
+	if (!shell)
+		shell = "/bin/sh";
+
+	if ( ! noexec ) { // we'll do it live
+		execl(shell, shell, "-c", appl.c_str(), static_cast<void*>(NULL));
+		exit(EXIT_SUCCESS);
+		return pid; // compiler happy -> we are happy ;)
+	} else { // dummy mode ( test )
+		std::cout << "Would have run: " << appl << std::endl;
+		exit(0);
+		return 0;
 	}
-
-	return;
 }
 
 void processArgs( int argc, char ** args ) {
