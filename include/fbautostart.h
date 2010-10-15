@@ -32,6 +32,12 @@
 #define _ON_BEHALF_OF "FLUXBOX"
 #endif
 
+//
+//          ▲
+//         ▲ ▲
+//
+// WITH THE POWER OF ZELDA!
+//
 
 #include <sys/types.h>
 #include <dirent.h>
