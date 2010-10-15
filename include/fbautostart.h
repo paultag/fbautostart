@@ -138,20 +138,25 @@ bool getConfDirs( std::vector<std::string> * loc ) {
 	const char * uzr_home = getenv("HOME");
 
 	if ( uzr_home != NULL ) {
+
+		std::string XDG_home, XDG_dirs;
+
 		if ( xdg_dirs != NULL ) {
 			debug( "We have an overridden xdg dir. Using it." );
+			XDG_dirs = xdg_dirs;
 		} else {
-			xdg_home = _DEFAULT_XDG_DIRS;
+			XDG_home = _DEFAULT_XDG_DIRS;
 		}
 
 		if ( xdg_home != NULL ) {
 			debug( "We have an overridden xdg home. Using it." );
+			XDG_home = xdg_home;
 		} else {
-			xdg_home = _DEFAULT_XDG_HOME;
+			XDG_home = _DEFAULT_XDG_HOME;
 		}
 
-		breakupLine( loc, std::string( xdg_dirs ) );
-		breakupLine( loc, std::string( xdg_home ) );
+		breakupLine( loc, XDG_dirs );
+		breakupLine( loc, XDG_home );
 
 		for ( unsigned int i = 0; i < loc->size(); ++i )
 			fixHomePathing( loc, uzr_home );
