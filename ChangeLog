@@ -1,3 +1,10 @@
+2010-10-15  Paul Tagliamonte  <paultag@ubuntu.com>
+
+* Bugfixes for random crap. Rewrote stuff to make
+more sense.
+
+* Fixed a few XDG spec issues. Should be betters now.
+
 2010-10-14  Paul Tagliamonte  <paultag@ubuntu.com>
 
 * Adding in the basic code stuff. Initial Release.
