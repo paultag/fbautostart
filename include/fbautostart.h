@@ -174,9 +174,9 @@ bool getConfDirs( std::vector<std::string> & loc ) {
 
 bool getDesktopFiles(
 	const std::vector<std::string> & dirs,
-	std::vector<dot_desktop * >    & out_files
+	std::vector<dot_desktop>       & out_files
 ) {
-	std::vector<dot_desktop *> files;
+	std::vector<dot_desktop> files;
 
 	for ( unsigned int i = 0; i < dirs.size(); ++i ) {
 		DIR           * dp   = NULL;
@@ -201,7 +201,7 @@ bool getDesktopFiles(
 					int dupe = -1; // there's no -1st element, silly!
 
 					for ( unsigned int n = 0; n < files.size(); ++n ) {
-						if ( files.at(n)->getID() == file ) { // make sure it's unique
+						if ( files.at(n).getID() == file ) { // make sure it's unique
 						                                       // ( as the xdg 
 						                                       //        spec requires )
 
@@ -214,13 +214,10 @@ bool getDesktopFiles(
 
 					std::string dees_nutz = dirs.at(i); // howabout deez nuts?
 					dees_nutz.append(file); // there's a dick joke somewhere in here
-					dot_desktop * new_file = new dot_desktop( dees_nutz, file );
+					dot_desktop new_file( dees_nutz, file );
 
 					if ( dupe >= 0 ) {
-						std::replace(
-							files.begin(), files.end(),
-							files.at(dupe), new_file
-						);
+						files.at(dupe) = new_file;
 					} else {
 						files.push_back( new_file );
 					}

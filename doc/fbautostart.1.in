@@ -34,7 +34,7 @@ fbautostart \- Autostart all XDG applications
 \fBfbautostart\fR [\fIoptions\fR]
 .SH "DESCRIPTION"
 .sp
-\fBfbautostart(1)\fR is an XDG complaint startup tool\&. This will go through the directories set up by the spec, and start all applications that match it\(cqs complied identifier\&.
+\fBfbautostart(1)\fR is an XDG complaint startup tool\&. This will go through the directories set up by the spec, and start all applications that match it\(cqs compiled identifier\&.
 .sp
 This tool has almost no dependencies and was written to be smart about this sort of stuff\&. There is a greater then average chance that you will find a bug, since it is a from\-scratch implementation\&. Pleas report bugs\&.
 .SH "FILES"

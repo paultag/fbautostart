@@ -123,16 +123,16 @@ int main ( int argc, char ** argv ) {
 
 	std::cout << "Launching on behalf of " << _ON_BEHALF_OF << std::endl;
 
-	std::vector<dot_desktop *> files;
+	std::vector<dot_desktop>   files;
 	std::vector<std::string>   dirs;
 
 	if ( getConfDirs( dirs ) ) { // if no directories barf in our face
 		if ( getDesktopFiles( dirs, files ) ) { // and we load everything with glee
 			for ( unsigned int i = 0; i < files.size(); ++i ) { // run through all the files
-				dot_desktop * d = files.at(i);
+				dot_desktop d = files.at(i);
 				bool happy = true;
-				std::string only = d->getAttr("OnlyShowIn"); // Only one per file ( per xdg )
-				std::string noti = d->getAttr("NotShowIn");  // We'll ignore that until we care
+				std::string only = d.getAttr("OnlyShowIn"); // Only one per file ( per xdg )
+				std::string noti = d.getAttr("NotShowIn");  // We'll ignore that until we care
 				                                             // XXX: This is most likely a bug.
 				if ( only != "" ) { // even if an attr does not exist
 				                    // the object will return it as "".
@@ -142,7 +142,7 @@ int main ( int argc, char ** argv ) {
 						happy = false;
 						debug("");
 						debug("Not running the following app ( Excluded by a OnlyShowIn )");
-						debug(d->getAttr("Name"));
+						debug(d.getAttr("Name"));
 					}
 				}
 				if ( noti != "" ) { // NAUGHTY NAUGHTY
@@ -152,14 +152,14 @@ int main ( int argc, char ** argv ) {
 						happy = false;
 						debug("");
 						debug("Forced into not running the following app ( Included by not being in NotShowIn )");
-						debug(d->getAttr("Name"));
+						debug(d.getAttr("Name"));
 					}
 				}
-				if ( d->getAttr("Hidden") == "" && happy ) { // If we sould exec
-					std::string appl = d->getAttr("Exec"); // get the line to run
+				if ( d.getAttr("Hidden") == "" && happy ) { // If we sould exec
+					std::string appl = d.getAttr("Exec"); // get the line to run
 					if ( appl != "" ) { // if it's defined and ready to go
 						debug( "Processing File: ");
-						debug(d->getFile());
+						debug(d.getFile());
 						runCommand( appl ); // kickoff
 					}
 				} // otherwise, we're out of here.
