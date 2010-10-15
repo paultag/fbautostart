@@ -27,7 +27,7 @@ Pleas report bugs.
 
 FILES
 -----
-*\~/.config/autostart*::
+*~/.config/autostart*::
 	This folder contains the default user XDG dot-desktop files that
         will be run ( unless it's overridden )
 
