@@ -121,7 +121,7 @@ void breakupLine( std::vector<std::string> * locs, std::string lines ) {
 
 void fixHomePathing( std::vector<std::string> * locs, std::string home ) {
 	for ( unsigned int i = 0; i < locs->size(); ++i ) {
-		if ( locs->at(i).substr(0,2) == "~/" ) {
+		if ( locs->at(i)[0] == '~' && locs->at(i)[1] == '/' ) {
 			debug("");
 			debug("Fixing a path old / new path follows.");
 			debug(locs->at(i));
