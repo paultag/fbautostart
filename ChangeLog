@@ -2,8 +2,8 @@
 
 * Bugfixes for random crap. Rewrote stuff to make
 more sense.
-
 * Fixed a few XDG spec issues. Should be betters now.
+* Fixed a bug with env vars. Thanks, Segaja.
 
 2010-10-14  Paul Tagliamonte  <paultag@ubuntu.com>
 
