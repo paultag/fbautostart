@@ -46,7 +46,6 @@
 
 #define _DOT_DESKTOP_GIVEAWAY "[Desktop Entry]"
 
-
 #include <iostream>
 #include <fstream>
 

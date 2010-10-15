@@ -195,7 +195,8 @@ bool getDesktopFiles(
 
 					for ( unsigned int n = 0; n < files->size(); ++n ) {
 						if ( files->at(n)->getID() == file ) { // make sure it's unique
-						                                       // ( as the xdg spec requires )
+						                                       // ( as the xdg 
+						                                       //        spec requires )
 
 							dupe = n; // there can be only one
 							          // dupe in the array, so it's
@@ -209,7 +210,10 @@ bool getDesktopFiles(
 					dot_desktop * new_file = new dot_desktop( dees_nutz, file );
 
 					if ( dupe >= 0 ) {
-						std::replace( files->begin(), files->end(), files->at(dupe), new_file );
+						std::replace(
+							files->begin(), files->end(),
+							files->at(dupe), new_file
+						);
 					} else {
 						files->push_back( new_file );
 					}

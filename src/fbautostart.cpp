@@ -52,13 +52,17 @@ void help() {
 	std::cout << "Startup all applications according to the" << std::endl;
 	std::cout << "XDG Spec. Right now, I'm hardcoded to think that" << std::endl;
 	std::cout << "I am doing this on behalf of '" << _ON_BEHALF_OF << "'" << std::endl;
+
 	std::cout << std::endl;
+
 	std::cout << "--license           Print out license information" << std::endl;
 	std::cout << "--help              Print out this message" << std::endl;
 	std::cout << "--noexec            Don't exec, just do a dry run" << std::endl;
+
 	std::cout << "" << std::endl;
 
 	std::cout << "Copyleft (c) Paul Tagliamonte, 2010, GNU GPLv3+" << std::endl;
+
 	std::cout << "" << std::endl;
 }
 
@@ -75,12 +79,13 @@ int runCommand( std::string appl ) {
 	// get shell path from the environment
 	// this process exits immediately, so we don't have to worry about memleaks
 	const char *shell = getenv("SHELL");
-	if (!shell)
+
+	if ( !shell )
 		shell = "/bin/sh";
 
 	if ( ! noexec ) { // we'll do it live
-		execl(shell, shell, "-c", appl.c_str(), static_cast<void*>(NULL));
-		exit(EXIT_SUCCESS);
+		execl( shell, shell, "-c", appl.c_str(), static_cast<void*>(NULL) );
+		exit ( EXIT_SUCCESS );
 		return pid; // compiler happy -> we are happy ;)
 	} else { // dummy mode ( test )
 		std::cout << "Would have run: " << appl << std::endl;
@@ -103,8 +108,9 @@ void processArgs( int argc, char ** args ) {
 			help();
 			exit(0);
 		}
-		if ( strcmp(args[i], "--noexec") == 0 )
+		if ( strcmp(args[i], "--noexec") == 0 ) {
 			noexec = true;
+		}
 	}
 }
 
@@ -126,7 +132,7 @@ int main ( int argc, char ** argv ) {
 				dot_desktop * d = files->at(i);
 				bool happy = true;
 				std::string only = d->getAttr("OnlyShowIn"); // Only one per file ( per xdg )
-				std::string noti = d->getAttr("NotShowIn");  // We'll ignore that until we get fancy.
+				std::string noti = d->getAttr("NotShowIn");  // We'll ignore that until we care
 				                                             // XXX: This is most likely a bug.
 				if ( only != "" ) { // even if an attr does not exist
 				                    // the object will return it as "".
@@ -141,7 +147,7 @@ int main ( int argc, char ** argv ) {
 				}
 				if ( noti != "" ) { // NAUGHTY NAUGHTY
 					int index = -1;
-					index = noti.find(_ON_BEHALF_OF); // if we have found our WM in the NotLaunch
+					index = noti.find(_ON_BEHALF_OF); // if we have found our WM
 					if ( index >= 0 ) { // We're in Launch, stop from launching it.
 						happy = false;
 						debug("");
