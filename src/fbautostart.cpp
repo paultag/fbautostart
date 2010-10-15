@@ -123,13 +123,13 @@ int main ( int argc, char ** argv ) {
 
 	std::cout << "Launching on behalf of " << _ON_BEHALF_OF << std::endl;
 
-	std::vector<dot_desktop *> * files = new std::vector<dot_desktop *>();
-	std::vector<std::string>   * dirs  = new std::vector<std::string>  ();
+	std::vector<dot_desktop *> files;
+	std::vector<std::string>   dirs;
 
 	if ( getConfDirs( dirs ) ) { // if no directories barf in our face
 		if ( getDesktopFiles( dirs, files ) ) { // and we load everything with glee
-			for ( unsigned int i = 0; i < files->size(); ++i ) { // run through all the files
-				dot_desktop * d = files->at(i);
+			for ( unsigned int i = 0; i < files.size(); ++i ) { // run through all the files
+				dot_desktop * d = files.at(i);
 				bool happy = true;
 				std::string only = d->getAttr("OnlyShowIn"); // Only one per file ( per xdg )
 				std::string noti = d->getAttr("NotShowIn");  // We'll ignore that until we care

@@ -89,17 +89,17 @@ void logError( int i ) { // [e]: (int) n
 	std::cerr << "[e]: (int) " << i << std::endl;
 }
 
-void debug( std::string s ) {    // [l]: my debug line
+void debug( const std::string & s ) {    // [l]: my debug line
 	if ( _DEBUG_MODE ) {
 		std::cout << "[l]: " << s << std::endl;
 	}
 }
 
-void debug( std::vector<std::string> * foo ) {    // [l]: my debug line
+void debug( const std::vector<std::string> & foo ) {    // [l]: my debug line
 	if ( _DEBUG_MODE ) {
 		std::cout << "[l]: The following is an array" << std::endl;
-		for ( unsigned int i = 0; i < foo->size(); ++i ) {
-			std::cout << "[l]:   " << foo->at(i) << std::endl;
+		for ( unsigned int i = 0; i < foo.size(); ++i ) {
+			std::cout << "[l]:   " << foo.at(i) << std::endl;
 		}
 	}
 }
@@ -131,7 +131,7 @@ void fixHomePathing( std::vector<std::string> * locs, std::string home ) {
 	}
 }
 
-bool getConfDirs( std::vector<std::string> * loc ) {
+bool getConfDirs( std::vector<std::string> & loc ) {
 
 	const char * xdg_home = getenv("XDG_CONFIG_HOME"); // See the spec for why
 	const char * xdg_dirs = getenv("XDG_CONFIG_DIRS"); // I'm using what I'm using.
@@ -155,11 +155,11 @@ bool getConfDirs( std::vector<std::string> * loc ) {
 			XDG_home = _DEFAULT_XDG_HOME;
 		}
 
-		breakupLine( loc, XDG_dirs );
-		breakupLine( loc, XDG_home );
+		breakupLine( &loc, XDG_dirs );
+		breakupLine( &loc, XDG_home );
 
-		for ( unsigned int i = 0; i < loc->size(); ++i )
-			fixHomePathing( loc, uzr_home );
+		for ( unsigned int i = 0; i < loc.size(); ++i )
+			fixHomePathing( &loc, uzr_home );
 
 		debug("");
 		debug("Using the following array to find files ( Expanded ): ");
@@ -173,22 +173,24 @@ bool getConfDirs( std::vector<std::string> * loc ) {
 }
 
 bool getDesktopFiles(
-	std::vector<std::string>   * dirs,
-	std::vector<dot_desktop *> * files
+	const std::vector<std::string> & dirs,
+	std::vector<dot_desktop * >    & out_files
 ) {
-	for ( unsigned int i = 0; i < dirs->size(); ++i ) {
+	std::vector<dot_desktop *> files;
+
+	for ( unsigned int i = 0; i < dirs.size(); ++i ) {
 		DIR           * dp   = NULL;
 		struct dirent * dirp = NULL;
-		if ((dp = opendir(dirs->at(i).c_str())) == NULL ) {
+		if ((dp = opendir(dirs.at(i).c_str())) == NULL ) {
 			if ( errno == ENOENT ) { // E(RROR) NO EXIST ( or whatever )
 				debug("");
 				debug("Looks like the dir does not exist. Dir follows.");
-				debug( dirs->at(i) );
+				debug( dirs.at(i) );
 				// debug("I'm going to keep this quiet. No big deal. Moving on.");
 			} else {
 				logError("");
 				logError("Oh no! Error opening directory! Directory, then Errorno follows: ");
-				logError( dirs->at(i) );
+				logError( dirs.at(i) );
 				logError(errno);
 				return false;
 			}
@@ -198,8 +200,8 @@ bool getDesktopFiles(
 				if ( file != "." && file != ".."  ) { // make sure we don't use . / ..
 					int dupe = -1; // there's no -1st element, silly!
 
-					for ( unsigned int n = 0; n < files->size(); ++n ) {
-						if ( files->at(n)->getID() == file ) { // make sure it's unique
+					for ( unsigned int n = 0; n < files.size(); ++n ) {
+						if ( files.at(n)->getID() == file ) { // make sure it's unique
 						                                       // ( as the xdg 
 						                                       //        spec requires )
 
@@ -210,24 +212,30 @@ bool getDesktopFiles(
 						}
 					}
 
-					std::string dees_nutz = dirs->at(i); // howabout deez nuts?
+					std::string dees_nutz = dirs.at(i); // howabout deez nuts?
 					dees_nutz.append(file); // there's a dick joke somewhere in here
 					dot_desktop * new_file = new dot_desktop( dees_nutz, file );
 
 					if ( dupe >= 0 ) {
 						std::replace(
-							files->begin(), files->end(),
-							files->at(dupe), new_file
+							files.begin(), files.end(),
+							files.at(dupe), new_file
 						);
 					} else {
-						files->push_back( new_file );
+						files.push_back( new_file );
 					}
 				} 
 			}
 			closedir(dp);
 		}
 	}
-	return true;
+
+	if ( ! files.empty() ) {
+		std::swap( files, out_files );
+		return true;
+	} else {
+		return false;
+	}
 }
 
 #endif
