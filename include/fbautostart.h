@@ -83,8 +83,8 @@
  *          ~/.config/autostart/ is more important than /etc/xdg/autostart/
  */
 
-#define _DEFAULT_XDG_HOME "~/.config"
-#define _DEFAULT_XDG_DIRS "/etc/xdg"
+#define _DEFAULT_XDG_HOME  "~/.config"
+#define _DEFAULT_XDG_DIRS  "/etc/xdg"
 #define _XDG_AUTOSTART_DIR "/autostart/"
 
 void logError( std::string s ) { // [e]: my error line
@@ -151,7 +151,7 @@ bool getConfDirs( std::vector<std::string> & loc ) {
 			debug( "We have an overridden xdg dir. Using it." );
 			XDG_dirs = xdg_dirs;
 		} else {
-			XDG_home = _DEFAULT_XDG_DIRS;
+			XDG_dirs = _DEFAULT_XDG_DIRS;
 		}
 
 		if ( xdg_home != NULL ) {
@@ -160,6 +160,10 @@ bool getConfDirs( std::vector<std::string> & loc ) {
 		} else {
 			XDG_home = _DEFAULT_XDG_HOME;
 		}
+
+		debug("Following is the targets");
+		debug(XDG_home);
+		debug(XDG_dirs);
 
 		breakupLine( &loc, XDG_dirs );
 		breakupLine( &loc, XDG_home );
