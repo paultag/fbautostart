@@ -1,3 +1,9 @@
+2010-10-21  Paul Tagliamonte  <paultag@ubuntu.com>
+
+* Bugfixes for random crap for XDG env issues.
+This is a fix for issues that I missed when fixing
+Segaja's issues.
+
 2010-10-15  Paul Tagliamonte  <paultag@ubuntu.com>
 
 * Bugfixes for random crap. Rewrote stuff to make
