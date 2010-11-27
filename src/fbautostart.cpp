@@ -111,6 +111,10 @@ void processArgs( int argc, char ** args ) {
 		if ( strcmp(args[i], "--noexec") == 0 ) {
 			noexec = true;
 		}
+		if ( strcmp(args[i], "--window-manager") == 0 ) {
+			_ON_BEHALF_OF = args[i+1];
+			i = i+1;
+		}
 	}
 }
 

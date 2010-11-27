@@ -28,9 +28,11 @@
 #define _DEBUG_MODE 0
 #endif
 
-#ifndef _ON_BEHALF_OF
-#define _ON_BEHALF_OF "FLUXBOX"
+#ifndef _ON_BEHALF_OF_DEFAULT
+#define _ON_BEHALF_OF_DEFAULT "FLUXBOX"
 #endif
+
+const char * _ON_BEHALF_OF = _ON_BEHALF_OF_DEFAULT ;
 
 //
 //          ▲
