@@ -1,3 +1,9 @@
+2010-11-28  Paul Tagliamonte  <paultag@ubuntu.com>
+
+* Removed the #define for the window manager setting in
+include/fbautostart.h. It's now a const char, and dynamic
+with the new --window-manager flag.
+
 2010-10-21  Paul Tagliamonte  <paultag@ubuntu.com>
 
 * Bugfixes for random crap for XDG env issues.

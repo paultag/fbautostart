@@ -42,6 +42,13 @@ OPTIONS
 	Do not execute any of the files,
 	rather, display what would have been run
 
+*--window-manager* ['WMNAME']::
+	Override the compile-time default window
+	manager, and work on behalf of this instead.
+	This is helpful if you'd like to use this tool in
+	place of another DE's normal XDG Autostarting
+	application
+
 *--license*::
 	Show license information
 
