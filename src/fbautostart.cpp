@@ -55,9 +55,10 @@ void help() {
 
 	std::cout << std::endl;
 
-	std::cout << "--license           Print out license information" << std::endl;
-	std::cout << "--help              Print out this message" << std::endl;
-	std::cout << "--noexec            Don't exec, just do a dry run" << std::endl;
+	std::cout << "--license             Print out license information" << std::endl;
+	std::cout << "--help                Print out this message" << std::endl;
+	std::cout << "--noexec              Don't exec, just do a dry run" << std::endl;
+	std::cout << "--window-manager ID   Override hardcoded value ( " << _ON_BEHALF_OF <<  " )" << std::endl;
 
 	std::cout << "" << std::endl;
 
@@ -111,7 +112,7 @@ void processArgs( int argc, char ** args ) {
 			_ON_BEHALF_OF = args[i+1];
 			i = i+1;
 		} else {
-			lecture();
+			help();
 			exit(1);
 		}
 	}
