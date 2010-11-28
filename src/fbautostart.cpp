@@ -29,7 +29,7 @@
 #include "dot_desktop.cpp"
 
 #define _APPNAME_ "fbautostart"
-#define _VERSION_ "2.7"
+#define _VERSION_ "2.71828"
 
 using namespace std;
 
@@ -99,21 +99,20 @@ void processArgs( int argc, char ** args ) {
 		if ( strcmp(args[i], "--license") == 0 ) {
 			lecture();
 			exit(0);
-		}
-		if ( strcmp(args[i], "--version") == 0 ) {
+		} else if ( strcmp(args[i], "--version") == 0 ) {
 			version();
 			exit(0);
-		}
-		if ( strcmp(args[i], "--help") == 0 ) {
+		} else if ( strcmp(args[i], "--help") == 0 ) {
 			help();
 			exit(0);
-		}
-		if ( strcmp(args[i], "--noexec") == 0 ) {
+		} else if ( strcmp(args[i], "--noexec") == 0 ) {
 			noexec = true;
-		}
-		if ( strcmp(args[i], "--window-manager") == 0 ) {
+		} else if ( strcmp(args[i], "--window-manager") == 0 ) {
 			_ON_BEHALF_OF = args[i+1];
 			i = i+1;
+		} else {
+			lecture();
+			exit(1);
 		}
 	}
 }

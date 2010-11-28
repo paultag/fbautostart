@@ -3,6 +3,10 @@
 * Removed the #define for the window manager setting in
 include/fbautostart.h. It's now a const char, and dynamic
 with the new --window-manager flag.
+* Changed fbautostart to error out when you pass in a bum
+flag. This caused me great pain the other day. Fixed now.
+* Forgot to bump the version number. It's now version 2.71828.
+Both of these changes were in src/fbautostart.cpp
 
 2010-10-21  Paul Tagliamonte  <paultag@ubuntu.com>
 
