@@ -96,7 +96,7 @@ int runCommand( std::string appl ) {
 }
 
 void processArgs( int argc, char ** args ) {
-	for ( int i = 0; i < argc; ++i ) {
+	for ( int i = 1; i < argc; ++i ) {
 		if ( strcmp(args[i], "--license") == 0 ) {
 			lecture();
 			exit(0);
@@ -112,6 +112,11 @@ void processArgs( int argc, char ** args ) {
 			_ON_BEHALF_OF = args[i+1];
 			i = i+1;
 		} else {
+			std::cout << "Holy god. I have no idea what:" << std::endl;
+			std::cout << "  " << args[i] << std::endl;
+			std::cout << "means. Try again :/" << std::endl;
+			std::cout << std::endl;
+
 			help();
 			exit(1);
 		}
