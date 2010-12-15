@@ -9,5 +9,5 @@ else
 	echo "Please install it to set up the build tool"
 	echo "chain. Many thanks :)"
 	echo ""
-	echo " -- fbautostart ( et al )"
+	echo " -- fbautostart hackers ( et al )"
 fi
