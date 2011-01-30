@@ -78,7 +78,9 @@ int runCommand( std::string appl ) {
 		return pid;
 
 	// get shell path from the environment
-	// this process exits immediately, so we don't have to worry about memleaks
+	//
+	// this process exits immediately, so we don't have to
+	//  worry about memleaks
 	std::string shell = getenv("SHELL");
 
 	if ( shell != "" )
