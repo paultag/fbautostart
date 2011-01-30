@@ -87,7 +87,13 @@ int runCommand( std::string appl ) {
 		shell = "/bin/sh";
 
 	if ( ! noexec ) { // we'll do it live
-		execl( shell.c_str(), shell.c_str(), "-c", appl.c_str(), static_cast<void*>(NULL) );
+		execl(
+			shell.c_str(),
+			shell.c_str(),
+			"-c",
+			appl.c_str(),
+			static_cast<void*>(NULL)
+		);
 		exit ( EXIT_SUCCESS );
 		return pid; // compiler happy -> we are happy ;)
 	} else { // dummy mode ( test )
