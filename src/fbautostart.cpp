@@ -79,13 +79,13 @@ int runCommand( std::string appl ) {
 
 	// get shell path from the environment
 	// this process exits immediately, so we don't have to worry about memleaks
-	const char *shell = getenv("SHELL");
+	std::string shell = getenv("SHELL");
 
-	if ( !shell )
+	if ( shell != "" )
 		shell = "/bin/sh";
 
 	if ( ! noexec ) { // we'll do it live
-		execl( shell, shell, "-c", appl.c_str(), static_cast<void*>(NULL) );
+		execl( shell.c_str(), shell.c_str(), "-c", appl.c_str(), static_cast<void*>(NULL) );
 		exit ( EXIT_SUCCESS );
 		return pid; // compiler happy -> we are happy ;)
 	} else { // dummy mode ( test )
