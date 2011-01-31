@@ -120,12 +120,13 @@ void processArgs( int argc, char ** args ) {
 			_ON_BEHALF_OF = args[i+1];
 			i = i+1;
 		} else {
+			help();
+
 			std::cout << "Holy god. I have no idea what:" << std::endl;
 			std::cout << "  " << args[i] << std::endl;
 			std::cout << "means. Try again :/" << std::endl;
 			std::cout << std::endl;
 
-			help();
 			exit(1);
 		}
 	}
@@ -162,7 +163,7 @@ int main ( int argc, char ** argv ) {
 						debug(d.getAttr("Name"));
 					}
 				}
-				if ( noti != "" ) { // NAUGHTY NAUGHTY
+				if ( noti != "" ) { // (NotShowIn (don't show))
 					int index = -1;
 					index = noti.find(_ON_BEHALF_OF); // if we have found our WM
 					if ( index >= 0 ) { // We're in Launch, stop from launching it.
@@ -177,7 +178,7 @@ int main ( int argc, char ** argv ) {
 					if ( appl != "" ) { // if it's defined and ready to go
 						debug( "Processing File: ");
 						debug(d.getFile());
-						runCommand( appl ); // kickoff
+						runCommand( appl ); // kickoff (regardless of noexec)
 					}
 				} // otherwise, we're out of here.
 			}

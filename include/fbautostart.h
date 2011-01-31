@@ -29,17 +29,17 @@
 #endif
 
 #ifndef _ON_BEHALF_OF_DEFAULT
+
+/**
+ *  I'm a bit biased on what this should
+ *  be starting up for. Considering the
+ *  name of this app and such.
+ */
+
 #define _ON_BEHALF_OF_DEFAULT "FLUXBOX"
 #endif
 
-const char * _ON_BEHALF_OF = _ON_BEHALF_OF_DEFAULT ;
-
-//
-//          ▲
-//         ▲ ▲
-//
-// WITH THE POWER OF ZELDA!
-//
+const char * _ON_BEHALF_OF = _ON_BEHALF_OF_DEFAULT;
 
 #include <sys/types.h>
 #include <dirent.h>
@@ -193,12 +193,11 @@ bool getDesktopFiles(
 	for ( unsigned int i = 0; i < dirs.size(); ++i ) {
 		DIR           * dp   = NULL;
 		struct dirent * dirp = NULL;
-		if ((dp = opendir(dirs.at(i).c_str())) == NULL ) {
+		if ( (dp = opendir(dirs.at(i).c_str())) == NULL ) {
 			if ( errno == ENOENT ) { // E(RROR) NO EXIST ( or whatever )
 				debug("");
 				debug("Looks like the dir does not exist. Dir follows.");
 				debug( dirs.at(i) );
-				// debug("I'm going to keep this quiet. No big deal. Moving on.");
 			} else {
 				logError("");
 				logError("Oh no! Error opening directory! Directory, then Errorno follows: ");
@@ -215,18 +214,18 @@ bool getDesktopFiles(
 					for ( unsigned int n = 0; n < files.size(); ++n ) {
 						if ( files.at(n).getID() == file ) { // make sure it's unique
 						                                       // ( as the xdg 
-						                                       //        spec requires )
+						                                       //    spec requires )
 
 							dupe = n; // there can be only one
 							          // dupe in the array, so it's
 							          // OK to think that there will
-							          // be only one 
+							          // be only one
 						}
 					}
 
-					std::string dees_nutz = dirs.at(i); // howabout deez nuts?
-					dees_nutz.append(file); // there's a dick joke somewhere in here
-					dot_desktop new_file( dees_nutz, file );
+					std::string desktop_filepath = dirs.at(i);
+					desktop_filepath.append(file);
+					dot_desktop new_file( desktop_filepath, file );
 
 					if ( dupe >= 0 ) {
 						files.at(dupe) = new_file;
