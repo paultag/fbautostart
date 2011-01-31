@@ -2,12 +2,12 @@
 .\"     Title: fbautostart
 .\"    Author: [see the "AUTHORS" section]
 .\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
-.\"      Date: 10/15/2010
+.\"      Date: 01/31/2011
 .\"    Manual: fbautostart Manual
 .\"    Source: fbautostart.txt
 .\"  Language: English
 .\"
-.TH "FBAUTOSTART" "1" "10/15/2010" "fbautostart\&.txt" "fbautostart Manual"
+.TH "FBAUTOSTART" "1" "01/31/2011" "fbautostart\&.txt" "fbautostart Manual"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -34,25 +34,30 @@ fbautostart \- Autostart all XDG applications
 \fBfbautostart\fR [\fIoptions\fR]
 .SH "DESCRIPTION"
 .sp
-\fBfbautostart(1)\fR is an XDG complaint startup tool\&. This will go through the directories set up by the spec, and start all applications that match it\(cqs compiled identifier\&.
+\fBfbautostart(1)\fR is an XDG complaint startup tool\&. This will go through the directories set up by the spec, and start all applications that match it\(cqs current identifier\&. You may change that identifier with the \fB\-\-window\-manager\fR flag\&.
 .sp
-This tool has almost no dependencies and was written to be smart about this sort of stuff\&. There is a greater then average chance that you will find a bug, since it is a from\-scratch implementation\&. Pleas report bugs\&.
+This tool has almost no library dependencies and was written to be smart about that sort of stuff\&. There is a greater then average chance that you will find a bug, since it is a from\-scratch implementation of the \&.desktop spec\&. Pleas report bugs\&. Please\&.
 .SH "FILES"
 .PP
 \fB~/\&.config/autostart\fR
 .RS 4
-This folder contains the default user XDG dot\-desktop files that will be run ( unless it\(cqs overridden )
+This folder contains the default user XDG dot\-desktop files that will be run ( unless it\(cqs overridden by an ENV variable )
 .RE
 .PP
 \fB/etc/xdg\fR
 .RS 4
-This folder contains the default system XDG dot\-desktop files that will be run ( unless it\(cqs overridden )
+This folder contains the default system XDG dot\-desktop files that will be run ( unless it\(cqs overridden by an ENV variable )
 .RE
 .SH "OPTIONS"
 .PP
 \fB\-\-noexec\fR
 .RS 4
 Do not execute any of the files, rather, display what would have been run
+.RE
+.PP
+\fB\-\-window\-manager\fR [\fIWMNAME\fR]
+.RS 4
+Override the compile\-time default window manager, and work on behalf of this instead\&. This is helpful if you\(cqd like to use this tool in place of another DE\(cqs normal XDG Autostarting application
 .RE
 .PP
 \fB\-\-license\fR
@@ -69,7 +74,27 @@ Show basic version information
 .RS 4
 Show basic usage and flags
 .RE
-.SH "EXAMPLE"
+.sp
+ENVIRONMENT VARIABLES
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+*XDG_CONFIG_HOME*::
+        The XDG root directory for the user\*(Aqs startup
+        files, which may override the global startup files\&.
+
+*XDG_CONFIG_DIRS*::
+        The root XDG directory, where global XDG files are
+        maintained\&.
+
+
+EXAMPLE
+.fi
+.if n \{\
+.RE
+.\}
 .sp
 .if n \{\
 .RS 4
