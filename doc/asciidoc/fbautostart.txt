@@ -60,7 +60,7 @@ OPTIONS
 	Show basic usage and flags
 
 ENVIRONMENT VARIABLES
--------
+---------------------
 *XDG_CONFIG_HOME*::
 	The XDG root directory for the user's startup
 	files, which may override the global startup files.

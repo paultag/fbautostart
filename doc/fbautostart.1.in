@@ -74,27 +74,18 @@ Show basic version information
 .RS 4
 Show basic usage and flags
 .RE
-.sp
-ENVIRONMENT VARIABLES
-.sp
-.if n \{\
+.SH "ENVIRONMENT VARIABLES"
+.PP
+\fBXDG_CONFIG_HOME\fR
 .RS 4
-.\}
-.nf
-*XDG_CONFIG_HOME*::
-        The XDG root directory for the user\*(Aqs startup
-        files, which may override the global startup files\&.
-
-*XDG_CONFIG_DIRS*::
-        The root XDG directory, where global XDG files are
-        maintained\&.
-
-
-EXAMPLE
-.fi
-.if n \{\
+The XDG root directory for the user\(cqs startup files, which may override the global startup files\&.
 .RE
-.\}
+.PP
+\fBXDG_CONFIG_DIRS\fR
+.RS 4
+The root XDG directory, where global XDG files are maintained\&.
+.RE
+.SH "EXAMPLE"
 .sp
 .if n \{\
 .RS 4
