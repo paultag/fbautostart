@@ -18,22 +18,23 @@ DESCRIPTION
 -----------
 *fbautostart(1)* is an XDG complaint startup tool. This will
 go through the directories set up by the spec, and start all
-applications that match it's compiled identifier.
+applications that match it's current identifier. You may change
+that identifier with the *--window-manager* flag.
 
-This tool has almost no dependencies and was written to be smart
-about this sort of stuff. There is a greater then average chance
-that you will find a bug, since it is a from-scratch implementation.
-Pleas report bugs.
+This tool has almost no library dependencies and was written to be smart
+about that sort of stuff. There is a greater then average chance
+that you will find a bug, since it is a from-scratch implementation of the
+.desktop spec. Pleas report bugs. Please.
 
 FILES
 -----
 *~/.config/autostart*::
 	This folder contains the default user XDG dot-desktop files that
-        will be run ( unless it's overridden )
+        will be run ( unless it's overridden by an ENV variable )
 
 */etc/xdg*::
 	This folder contains the default system XDG dot-desktop files that
-        will be run ( unless it's overridden )
+        will be run ( unless it's overridden by an ENV variable )
 
 
 OPTIONS
@@ -57,6 +58,17 @@ OPTIONS
 
 *--help*::
 	Show basic usage and flags
+
+ENVIRONMENT VARIABLES
+-------
+*XDG_CONFIG_HOME*::
+	The XDG root directory for the user's startup
+	files, which may override the global startup files.
+
+*XDG_CONFIG_DIRS*::
+	The root XDG directory, where global XDG files are
+	maintained.
+
 
 EXAMPLE
 -------
