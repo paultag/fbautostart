@@ -2,8 +2,8 @@
 # Makefile.am for fluxbox/doc
 
 CLEANFILES = fbautostart.1 
-man_MANS = fbautostart.1
-EXTRA_DIST=fbautostart.1.in
+man_MANS   = fbautostart.1
+EXTRA_DIST = fbautostart.1.in
 
 distclean-local:
 	rm -f *\~
