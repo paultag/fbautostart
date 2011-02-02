@@ -28,8 +28,8 @@
 #include "fbautostart.h"
 #include "dot_desktop.cpp"
 
-#define _APPNAME_ "fbautostart"
-#define _VERSION_ "2.71828"
+#define _APPNAME_ PACKAGE
+#define _VERSION_ PACKAGE_VERSION
 
 using namespace std;
 
