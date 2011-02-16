@@ -21,6 +21,9 @@
  *
  */
 
+#define PACKAGE         "fbautostart"
+#define PACKAGE_VERSION "2.71828"
+
 #ifndef _FBAUTOSTART_H
 #define _FBAUTOSTART_H ohai
 
