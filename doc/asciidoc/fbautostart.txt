@@ -1,7 +1,7 @@
 fbautostart(1)
 ==============
 Paul Tagliamonte <paultag@ubuntu.com>
-v2.7.0, 14 October 2010
+v2.718281.0,   7th September 2011
 :man source:   fbautostart.txt
 :man version:  {revision}
 :man manual:   fbautostart Manual  
@@ -19,7 +19,7 @@ DESCRIPTION
 *fbautostart(1)* is an XDG complaint startup tool. This will
 go through the directories set up by the spec, and start all
 applications that match it's current identifier. You may change
-that identifier with the *--window-manager* flag.
+that identifier with the *FBXDG_DE* env var.
 
 This tool has almost no library dependencies and was written to be smart
 about that sort of stuff. There is a greater then average chance
@@ -39,25 +39,8 @@ FILES
 
 OPTIONS
 -------
-*--noexec*::
-	Do not execute any of the files,
-	rather, display what would have been run
 
-*--window-manager* ['WMNAME']::
-	Override the compile-time default window
-	manager, and work on behalf of this instead.
-	This is helpful if you'd like to use this tool in
-	place of another DE's normal XDG Autostarting
-	application
-
-*--license*::
-	Show license information
-
-*--version*::
-	Show basic version information
-
-*--help*::
-	Show basic usage and flags
+Sadly, there are no flags in this particular release.
 
 ENVIRONMENT VARIABLES
 ---------------------
@@ -69,6 +52,19 @@ ENVIRONMENT VARIABLES
 	The root XDG directory, where global XDG files are
 	maintained.
 
+*FBXDG_DE*::
+	Development enviroment that we should act upon. This
+	defaults to "FLUXBOX", since this is a fluxbox project,
+	after all. Please note this is case sensitive.
+
+*FBXDG_EXEC*::
+	This dictates if we should execute the application that
+	we've been told to or not. This is particularly useful
+	for debugging the app.
+
+*HOME*::
+	The location of one's home directory, such that ~/ will be expanded
+	to /home/user/
 
 EXAMPLE
 -------
@@ -78,7 +74,7 @@ fbautostart
 
 AUTHORS
 -------
-Paul Tagliamonte <paultag@ubuntu.com> for fbautostart 2.7
+Paul Tagliamonte <paultag@ubuntu.com> for fbautostart 2.718281
 
 SEE ALSO
 --------

@@ -1,21 +1,16 @@
 /*
- * dot_desktop.h
- * 
- * This file is part of the Fluxbox Autostart ( fbautostart )
- * Utility.
- * 
- * Copyright (C) 2011 by Paul Tagliamonte <paultag@ubuntu.com>
- * 
+ * Copyright (C) 2011, Paul Tagliamonte
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,30 +18,18 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- *
  */
 
-#ifndef _DOT_DESKTOP_H
-#define _DOT_DESKTOP_H ohai
+#ifndef MACHINE_H_
+#define MACHINE_H_ ja
 
-class dot_desktop_attr {
-	public:
-		std::string attr;
-		std::string value;
-};
+#include "comment.hh"
+#include "entry.hh"
+#include "state.hh"
 
-class dot_desktop {
-	protected:
-		std::vector<dot_desktop_attr *> * attr;
-		std::string file;
-		std::string id;
-	public:
-		dot_desktop( std::string s, std::string id );
-		void load();
-		std::string getAttr( std::string sx );
-		bool validate();
-		std::string getFile();
-		std::string getID();
-};
+extern state * xdg_machine_next_state;
+
+void xdg_machine_process( char c );
+void xdg_machine_turnkey();
 
 #endif
