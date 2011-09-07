@@ -53,7 +53,7 @@ ENVIRONMENT VARIABLES
 	maintained.
 
 *FBXDG_DE*::
-	Development enviroment that we should act upon. This
+	Development environment that we should act upon. This
 	defaults to "FLUXBOX", since this is a fluxbox project,
 	after all. Please note this is case sensitive.
 

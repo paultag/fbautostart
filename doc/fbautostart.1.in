@@ -65,7 +65,7 @@ The root XDG directory, where global XDG files are maintained\&.
 .PP
 \fBFBXDG_DE\fR
 .RS 4
-Development enviroment that we should act upon\&. This defaults to "FLUXBOX", since this is a fluxbox project, after all\&. Please note this is case sensitive\&.
+Development environment that we should act upon\&. This defaults to "FLUXBOX", since this is a fluxbox project, after all\&. Please note this is case sensitive\&.
 .RE
 .PP
 \fBFBXDG_EXEC\fR
