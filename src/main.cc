@@ -150,7 +150,7 @@ void pre_exec() {
 	std::cout << " Entrées" << std::endl;
 	std::cout << "" << std::endl;
 
-	std::cout << " * Desktop Enviroment:    " << _xdg_window_manager << std::endl;
+	std::cout << " * Desktop Environment:    " << _xdg_window_manager << std::endl;
 	std::cout << " * Global XDG Directory:  " << _xdg_default_global << std::endl;
 	std::cout << " * Local XDG Directory:   " << _xdg_default_local  << std::endl;
 	std::cout << " * Current exec Model:    " << noexec << std::endl;
