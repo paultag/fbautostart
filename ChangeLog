@@ -1,3 +1,12 @@
+2011-09-07  Paul Tagliamonte  <paultag@ubuntu.com>
+
+* Merged with test code I've been tracking.
+* Upstream version bump to version  2.718281.
+* Basically, we've moved to a state-based parsing
+model (without ragel, since ragel sucks ass, I don't
+care what ak|ra thinks -- in the nicest way I can say
+it).
+
 2010-11-28  Paul Tagliamonte  <paultag@ubuntu.com>
 
 * Removed the #define for the window manager setting in
