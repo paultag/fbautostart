@@ -36,9 +36,9 @@
  * XXX: Document me
  */
 void parse_file ( std::string file ) {
-	std::ifstream xdg_file(file.c_str(), std::ios::in | std::ios::binary);
+	std::ifstream fd(file.c_str(), std::ios::in | std::ios::binary);
 
-	if ( ! xdg_file ) {
+	if ( ! fd ) {
 		std::cerr << "Crapola file." << std::endl;
 		// XXX: Raise exception
 	}
@@ -52,7 +52,7 @@ void parse_file ( std::string file ) {
 	int col = 0; // some cosmetics
 
 	do {
-		xdg_file.read(&c, 1);
+		fd.read(&c, 1);
 		col++;
 
 		if ( c == '\n' ) { col = 0; row++; }
@@ -64,7 +64,7 @@ void parse_file ( std::string file ) {
 			std::cerr << "Error parsing: R/C: " << row << ", " << col << std::endl;
 			throw &ex; // XXX: Fix this fucking hack
 		}
-	} while ( ! xdg_file.eof() );
+	} while ( ! fd.eof() );
 	/* In the event that they don't newline the end of the
 	   file */
 	xdg_machine_process( '\n' );
