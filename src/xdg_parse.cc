@@ -28,6 +28,7 @@
 #include <string.h>
 
 #include "machine.hh"
+#include "entry.hh"
 #include "xdg_model.hh"
 #include "exceptions.hh"
 #include "xdg_autostart.hh"
