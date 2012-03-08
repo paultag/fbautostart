@@ -74,17 +74,17 @@ void parse_file ( std::string file ) {
 /**
  * XXX: Document me
  */
-void parse_folder ( xdg_autostart_map * binaries, std::string folder ) {
+void parse_folder( xdg_autostart_map * binaries, std::string folder ) {
     DIR * dir;
     struct dirent * ent;
-    dir = opendir (folder.c_str());
+    dir = opendir(folder.c_str());
 
     if (dir != NULL) {
         /* print all the files and directories within directory */
-        while ((ent = readdir (dir)) != NULL) {
+        while ((ent = readdir(dir)) != NULL) {
             if (
-                    strcmp (ent->d_name, ".")  != 0 &&
-                    strcmp (ent->d_name, "..") != 0
+                    strcmp(ent->d_name, ".")  != 0 &&
+                    strcmp(ent->d_name, "..") != 0
                ) {
                 // std::cout << "Loading: " << folder + "/" + ent->d_name << " ";
                 try {

@@ -4,7 +4,7 @@ Paul Tagliamonte <paultag@ubuntu.com>
 v2.718281.0,   7th September 2011
 :man source:   fbautostart.txt
 :man version:  {revision}
-:man manual:   fbautostart Manual  
+:man manual:   fbautostart Manual
 
 NAME
 ----
@@ -24,7 +24,7 @@ that identifier with the *FBXDG_DE* env var.
 This tool has almost no library dependencies and was written to be smart
 about that sort of stuff. There is a greater then average chance
 that you will find a bug, since it is a from-scratch implementation of the
-.desktop spec. Pleas report bugs. Please.
+.desktop spec. Please report bugs. Please.
 
 FILES
 -----
@@ -61,6 +61,10 @@ ENVIRONMENT VARIABLES
 	This dictates if we should execute the application that
 	we've been told to or not. This is particularly useful
 	for debugging the app.
+
+    Set this value to 0 to execute, and 1 to play dummy. I relize how silly
+    this is, and this behavior will likely change (with a deprecation of this
+    env-var, so don't worry about this falling out from under your feet.)
 
 *HOME*::
 	The location of one's home directory, such that ~/ will be expanded
