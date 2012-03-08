@@ -31,33 +31,33 @@ state * xdg_machine_next_state;
 state * xdg_machine_curr_state;
 
 void xdg_machine_turnkey() {
-	xdg_machine_curr_state = xdg_machine_next_state;
+    xdg_machine_curr_state = xdg_machine_next_state;
 }
 
 void xdg_machine_process( char c ) {
-	bool passchar = false;
+    bool passchar = false;
 
-	try {
-		xdg_machine_curr_state->process(c);
-	} catch ( incomplete_process * ex ) {
-		/* If the machine can't fully processes the char,
-		   we must pass it to the next state */
-		passchar = true;
-	}
+    try {
+        xdg_machine_curr_state->process(c);
+    } catch ( incomplete_process * ex ) {
+        /* If the machine can't fully processes the char,
+           we must pass it to the next state */
+        passchar = true;
+    }
 
-	if ( xdg_machine_curr_state != xdg_machine_next_state ) {
-		/* a machine has requested a state transition.
-		   We can hanlde this the right (tm) way. */
+    if ( xdg_machine_curr_state != xdg_machine_next_state ) {
+        /* a machine has requested a state transition.
+           We can hanlde this the right (tm) way. */
 
-		xdg_machine_curr_state->leave_state();
-		xdg_machine_curr_state = xdg_machine_next_state;
-		xdg_machine_curr_state->enter_state();
+        xdg_machine_curr_state->leave_state();
+        xdg_machine_curr_state = xdg_machine_next_state;
+        xdg_machine_curr_state->enter_state();
 
-		/* All set to keep processing. Now, let's see
-		   if we have to process the next char. If we do,
-		   then let's recurse. */
-		if ( passchar )
-			xdg_machine_process(c);
-	}
+        /* All set to keep processing. Now, let's see
+           if we have to process the next char. If we do,
+           then let's recurse. */
+        if ( passchar )
+            xdg_machine_process(c);
+    }
 }
 

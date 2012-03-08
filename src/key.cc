@@ -33,23 +33,23 @@ std::string xdg_state_key_lastparsed;
 
 void key::leave_state() { }
 void key::enter_state() {
-	xdg_state_key_lastparsed = "";
+    xdg_state_key_lastparsed = "";
 }
 
 void key::process( char c ) {
-	switch ( c ) {
-		case '=':
-			/* Once we hit a =, we grab values */
-			xdg_machine_next_state = &xdg_value;
-			break;
-		case '\n':
-			/* If we hit a newline with now =, it's invalid */
-			xdg_machine_next_state = &xdg_invalid;
-			break;
-		default:
-			/* push back char */
-			xdg_state_key_lastparsed.append(1, c);
-			break;
-	}
+    switch ( c ) {
+        case '=':
+            /* Once we hit a =, we grab values */
+            xdg_machine_next_state = &xdg_value;
+            break;
+        case '\n':
+            /* If we hit a newline with now =, it's invalid */
+            xdg_machine_next_state = &xdg_invalid;
+            break;
+        default:
+            /* push back char */
+            xdg_state_key_lastparsed.append(1, c);
+            break;
+    }
 }
 

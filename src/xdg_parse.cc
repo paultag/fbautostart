@@ -37,70 +37,70 @@
  * XXX: Document me
  */
 void parse_file ( std::string file ) {
-	std::ifstream fd(file.c_str(), std::ios::in | std::ios::binary);
+    std::ifstream fd(file.c_str(), std::ios::in | std::ios::binary);
 
-	if ( ! fd ) {
-		std::cerr << "Crapola file." << std::endl;
-		// XXX: Raise exception
-	}
+    if ( ! fd ) {
+        std::cerr << "Crapola file." << std::endl;
+        // XXX: Raise exception
+    }
 
-	xdg_machine_next_state = &xdg_entry;
-	xdg_machine_turnkey(); // Vvvrooom!
+    xdg_machine_next_state = &xdg_entry;
+    xdg_machine_turnkey(); // Vvvrooom!
 
-	char c;
+    char c;
 
-	int row = 1;
-	int col = 0; // some cosmetics
+    int row = 1;
+    int col = 0; // some cosmetics
 
-	do {
-		fd.read(&c, 1);
-		col++;
+    do {
+        fd.read(&c, 1);
+        col++;
 
-		if ( c == '\n' ) { col = 0; row++; }
+        if ( c == '\n' ) { col = 0; row++; }
 
-		try {
-			xdg_machine_process( c );
-		} catch ( parser_exception * fu ) {
-			parser_exception ex(row, col);
-			std::cerr << "Error parsing: R/C: " << row << ", " << col << std::endl;
-			throw &ex; // XXX: Fix this fucking hack
-		}
-	} while ( ! fd.eof() );
-	/* In the event that they don't newline the end of the
-	   file */
-	xdg_machine_process( '\n' );
+        try {
+            xdg_machine_process( c );
+        } catch ( parser_exception * fu ) {
+            parser_exception ex(row, col);
+            std::cerr << "Error parsing: R/C: " << row << ", " << col << std::endl;
+            throw &ex; // XXX: Fix this fucking hack
+        }
+    } while ( ! fd.eof() );
+    /* In the event that they don't newline the end of the
+       file */
+    xdg_machine_process( '\n' );
 }
 
 /**
  * XXX: Document me
  */
 void parse_folder ( xdg_autostart_map * binaries, std::string folder ) {
-	DIR * dir;
-	struct dirent * ent;
-        dir = opendir (folder.c_str());
+    DIR * dir;
+    struct dirent * ent;
+    dir = opendir (folder.c_str());
 
-	if (dir != NULL) {
-		/* print all the files and directories within directory */
-		while ((ent = readdir (dir)) != NULL) {
-			if (
-				strcmp (ent->d_name, ".")  != 0 &&
-				strcmp (ent->d_name, "..") != 0 
-			) {
-				// std::cout << "Loading: " << folder + "/" + ent->d_name << " ";
-				try {
-					parse_file(folder + "/" + ent->d_name);
-					xdg_autostart_pair r = xdg_autostart_last_parsed();
-					xdg_parsed_file.clear();
-					binaries->insert(xdg_autostart_pair(ent->d_name, r.second));
-				} catch ( parser_exception * ex ) {
-					std::cerr << "Exception parsing " << ent->d_name << std::endl;
-					std::cerr << " in " << folder << std::endl;
-				}
-			}
-		}
-		closedir (dir);
-	} else {
-		// XXX: Exceptionize this
-	}
+    if (dir != NULL) {
+        /* print all the files and directories within directory */
+        while ((ent = readdir (dir)) != NULL) {
+            if (
+                    strcmp (ent->d_name, ".")  != 0 &&
+                    strcmp (ent->d_name, "..") != 0
+               ) {
+                // std::cout << "Loading: " << folder + "/" + ent->d_name << " ";
+                try {
+                    parse_file(folder + "/" + ent->d_name);
+                    xdg_autostart_pair r = xdg_autostart_last_parsed();
+                    xdg_parsed_file.clear();
+                    binaries->insert(xdg_autostart_pair(ent->d_name, r.second));
+                } catch ( parser_exception * ex ) {
+                    std::cerr << "Exception parsing " << ent->d_name << std::endl;
+                    std::cerr << " in " << folder << std::endl;
+                }
+            }
+        }
+        closedir (dir);
+    } else {
+        // XXX: Exceptionize this
+    }
 }
 

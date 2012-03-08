@@ -37,27 +37,27 @@ void entry::leave_state() {}
 void entry::enter_state() {}
 
 void entry::process( char c ) {
-	switch ( c ) {
-		case '#':
-			/* Lines that begin with # are comments*/
-			xdg_machine_next_state = &xdg_comment;
-			break;
-		case '=':
-			/* We've got no key, this is an invalid transition */
-			xdg_machine_next_state = &xdg_invalid;
-			break;
-		case '[':
-			/* Lines that begin with [ are groups */
-			xdg_machine_next_state = &xdg_group;
-			break;
-		case '\n':
-			/* Let's just eat newlines */
-			break;
-		default:
-			/* Anything else is a key */
-			xdg_machine_next_state = &xdg_key;
-			throw new incomplete_process();
-			break;
-	}
+    switch ( c ) {
+        case '#':
+            /* Lines that begin with # are comments*/
+            xdg_machine_next_state = &xdg_comment;
+            break;
+        case '=':
+            /* We've got no key, this is an invalid transition */
+            xdg_machine_next_state = &xdg_invalid;
+            break;
+        case '[':
+            /* Lines that begin with [ are groups */
+            xdg_machine_next_state = &xdg_group;
+            break;
+        case '\n':
+            /* Let's just eat newlines */
+            break;
+        default:
+            /* Anything else is a key */
+            xdg_machine_next_state = &xdg_key;
+            throw new incomplete_process();
+            break;
+    }
 }
 

@@ -32,13 +32,13 @@ void comment::leave_state() { /* nullop */ }
 void comment::enter_state() { /* nullop */ }
 
 void comment::process( char c ) {
-	switch ( c ) {
-		case '\n':
-			xdg_machine_next_state = &xdg_entry;
-			break;
-		default:
-			/* nullop */
-			break;
-	}
+    switch ( c ) {
+        case '\n':
+            xdg_machine_next_state = &xdg_entry;
+            break;
+        default:
+            /* nullop */
+            break;
+    }
 }
 

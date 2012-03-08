@@ -30,23 +30,23 @@ std::string xdg_state_group_lastparsed = _XDG_GROUP_UNDEFINED;
 
 void group::leave_state() {}
 void group::enter_state() {
-	xdg_state_group_lastparsed = "";
+    xdg_state_group_lastparsed = "";
 }
 
 void group::process( char c ) {
-	switch ( c ) {
-		case ']':
-			/* End of group declr */
-			xdg_machine_next_state = &xdg_entry;
-			break;
-		case '\n':
-			/* We've got got a ], invalid */
-			xdg_machine_next_state = &xdg_invalid;
-			break;
-		default:
-			/* push back the group entry */
-			xdg_state_group_lastparsed.append(1, c);
-			break;
-	}
+    switch ( c ) {
+        case ']':
+            /* End of group declr */
+            xdg_machine_next_state = &xdg_entry;
+            break;
+        case '\n':
+            /* We've got got a ], invalid */
+            xdg_machine_next_state = &xdg_invalid;
+            break;
+        default:
+            /* push back the group entry */
+            xdg_state_group_lastparsed.append(1, c);
+            break;
+    }
 }
 

@@ -23,14 +23,14 @@
 #include "state.hh"
 
 void state::leave_state() {
-	/* nullop */
+    /* nullop */
 }
 
 void state::enter_state() {
-	/* nullop */
+    /* nullop */
 }
 
 void state::process( char c ) {
-	/* nullop */
+    /* nullop */
 }
 

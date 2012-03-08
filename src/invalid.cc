@@ -31,8 +31,8 @@ void invalid::leave_state() { }
 void invalid::enter_state() { }
 
 void invalid::process( char c ) {
-	// XXX: Fix this up
-	std::cerr << "Crap! Error parsing!!" << std::endl;
-	throw new parser_exception(-1,-1);
+    // XXX: Fix this up
+    std::cerr << "Crap! Error parsing!!" << std::endl;
+    throw new parser_exception(-1,-1);
 }
 

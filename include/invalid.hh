@@ -26,10 +26,10 @@
 #include "state.hh"
 
 class invalid : public state {
-	public:
-		void leave_state();
-		void enter_state();
-		void process( char c );
+    public:
+        void leave_state();
+        void enter_state();
+        void process( char c );
 };
 
 extern invalid xdg_invalid;

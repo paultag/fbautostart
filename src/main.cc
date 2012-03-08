@@ -45,167 +45,167 @@ bool noexec = false;
  * XXX: Docme
  */
 int run_command( std::string appl ) {
-	if ( appl == "" )
-		return 0;
+    if ( appl == "" )
+        return 0;
 
-	pid_t pid = fork();
+    pid_t pid = fork();
 
-	if (pid)
-		return pid;
+    if (pid)
+        return pid;
 
-	std::string shell = getenv("SHELL");
+    std::string shell = getenv("SHELL");
 
-	if ( shell != "" )
-		shell = "/bin/sh";
+    if ( shell != "" )
+        shell = "/bin/sh";
 
-	if ( ! noexec ) { // we'll do it live
-		execl(
-			shell.c_str(),
-			shell.c_str(),
-			"-c",
-			appl.c_str(),
-			static_cast<void*>(NULL)
-		);
-		exit ( EXIT_SUCCESS );
-		return pid;
-	} else {
-		std::cout << "    Would have run: " << appl << std::endl;
-		exit(0);
-		return 0;
-	}
+    if ( ! noexec ) { // we'll do it live
+        execl(
+                shell.c_str(),
+                shell.c_str(),
+                "-c",
+                appl.c_str(),
+                static_cast<void*>(NULL)
+             );
+        exit ( EXIT_SUCCESS );
+        return pid;
+    } else {
+        std::cout << "    Would have run: " << appl << std::endl;
+        exit(0);
+        return 0;
+    }
 }
 
 /**
  * XXX: Document me
  */
 void pre_exec() {
-	const char * home       = getenv("XDG_CONFIG_HOME");
-	const char * dirs       = getenv("XDG_CONFIG_DIRS");
-	const char * userhome   = getenv("HOME");
-	const char * desktopenv = getenv("FBXDG_DE");
-	const char * execmodel  = getenv("FBXDG_EXEC");
+    const char * home       = getenv("XDG_CONFIG_HOME");
+    const char * dirs       = getenv("XDG_CONFIG_DIRS");
+    const char * userhome   = getenv("HOME");
+    const char * desktopenv = getenv("FBXDG_DE");
+    const char * execmodel  = getenv("FBXDG_EXEC");
 
-	/*   TABLE OF ENV VARS
-	 *
-	 * +------------------+----------------------------+
-	 * | XDG_CONFIG_HOME  | XDG Local dir (~/.config)  |
-	 * | XDG_CONFIG_DIRS  | XDG Global dir (/etc/xdg)  |
-	 * | HOME             | User home (/home/tag)      |
-	 * | FBXDG_DE         | Who to act on behalf of    |
-	 * | FBXDG_EXEC       | 0 for exec, 1 for noexec   |
-	 * +------------------+----------------------------+
-	 *
-	 */
+    /*   TABLE OF ENV VARS
+     *
+     * +------------------+----------------------------+
+     * | XDG_CONFIG_HOME  | XDG Local dir (~/.config)  |
+     * | XDG_CONFIG_DIRS  | XDG Global dir (/etc/xdg)  |
+     * | HOME             | User home (/home/tag)      |
+     * | FBXDG_DE         | Who to act on behalf of    |
+     * | FBXDG_EXEC       | 0 for exec, 1 for noexec   |
+     * +------------------+----------------------------+
+     *
+     */
 
-	const char * blank = ""; /* -Waddress errrs.
-	                             ( to avoid using strcmp, which we actually
-	                               do use later, so XXX: Fixme ) */
+    const char * blank = ""; /* -Waddress errrs.
+                                ( to avoid using strcmp, which we actually
+                                do use later, so XXX: Fixme ) */
 
-	home       = home       == NULL ? blank : home;
-	dirs       = dirs       == NULL ? blank : dirs;
-	desktopenv = desktopenv == NULL ? blank : desktopenv;
-	execmodel  = execmodel  == NULL ? blank : execmodel;
-	/*
-	 * If we're null, set to "" rather then keep NULL.
-	 */
+    home       = home       == NULL ? blank : home;
+    dirs       = dirs       == NULL ? blank : dirs;
+    desktopenv = desktopenv == NULL ? blank : desktopenv;
+    execmodel  = execmodel  == NULL ? blank : execmodel;
+    /*
+     * If we're null, set to "" rather then keep NULL.
+     */
 
-	_xdg_default_global = dirs       == blank ? _xdg_default_global : dirs;
-	_xdg_default_local  = home       == blank ? _xdg_default_local  : home;
-	_xdg_window_manager = desktopenv == blank ? _xdg_window_manager  : desktopenv;
-	/*
-	 * If we have a env var, set them to the global prefs.
-	 */
+    _xdg_default_global = dirs       == blank ? _xdg_default_global : dirs;
+    _xdg_default_local  = home       == blank ? _xdg_default_local  : home;
+    _xdg_window_manager = desktopenv == blank ? _xdg_window_manager  : desktopenv;
+    /*
+     * If we have a env var, set them to the global prefs.
+     */
 
-	if ( strcmp(execmodel,"0") == 0 )
-		noexec = false;
-	else if ( strcmp(execmodel,"1") == 0 )
-		noexec = true;
-	/*
-	 * Fuck this mess. Someone needs to clean this up to use true/false
-	 * and have it relate in a sane way.
-	 * XXX: Fixme
-	 */
+    if ( strcmp(execmodel,"0") == 0 )
+        noexec = false;
+    else if ( strcmp(execmodel,"1") == 0 )
+        noexec = true;
+    /*
+     * Fuck this mess. Someone needs to clean this up to use true/false
+     * and have it relate in a sane way.
+     * XXX: Fixme
+     */
 
-	_xdg_default_global = fix_home_pathing( _xdg_default_global, userhome );
-	_xdg_default_local  = fix_home_pathing( _xdg_default_local,  userhome );
-	/*
-	 * If the luser gives us (or we default to) a path with tlde in it,
-	 * let's expand it to use $HOME to figure out where the real path actually
-	 * is.
-	 */
+    _xdg_default_global = fix_home_pathing( _xdg_default_global, userhome );
+    _xdg_default_local  = fix_home_pathing( _xdg_default_local,  userhome );
+    /*
+     * If the luser gives us (or we default to) a path with tlde in it,
+     * let's expand it to use $HOME to figure out where the real path actually
+     * is.
+     */
 
-	std::cout << "" << std::endl;
-	std::cout << "Hello! I'll be your friendly XDG Autostarter today." << std::endl;
-	std::cout << "Here's what's on the menu:" << std::endl;
-	std::cout << "" << std::endl;
-	std::cout << " Appetizers" << std::endl;
-	std::cout << "" << std::endl;
+    std::cout << "" << std::endl;
+    std::cout << "Hello! I'll be your friendly XDG Autostarter today." << std::endl;
+    std::cout << "Here's what's on the menu:" << std::endl;
+    std::cout << "" << std::endl;
+    std::cout << " Appetizers" << std::endl;
+    std::cout << "" << std::endl;
 
-	std::cout << " * $XDG_CONFIG_HOME:      " << home << std::endl;
-	std::cout << " * $XDG_CONFIG_DIRS:      " << dirs << std::endl;
-	std::cout << " * $FBXDG_DE:             " << desktopenv << std::endl;
-	std::cout << " * $FBXDG_EXEC:           " << execmodel << std::endl;
+    std::cout << " * $XDG_CONFIG_HOME:      " << home << std::endl;
+    std::cout << " * $XDG_CONFIG_DIRS:      " << dirs << std::endl;
+    std::cout << " * $FBXDG_DE:             " << desktopenv << std::endl;
+    std::cout << " * $FBXDG_EXEC:           " << execmodel << std::endl;
 
-	std::cout << "" << std::endl;
-	std::cout << " Entrées" << std::endl;
-	std::cout << "" << std::endl;
+    std::cout << "" << std::endl;
+    std::cout << " Entrées" << std::endl;
+    std::cout << "" << std::endl;
 
-	std::cout << " * Desktop Environment:    " << _xdg_window_manager << std::endl;
-	std::cout << " * Global XDG Directory:  " << _xdg_default_global << std::endl;
-	std::cout << " * Local XDG Directory:   " << _xdg_default_local  << std::endl;
-	std::cout << " * Current exec Model:    " << noexec << std::endl;
+    std::cout << " * Desktop Environment:    " << _xdg_window_manager << std::endl;
+    std::cout << " * Global XDG Directory:  " << _xdg_default_global << std::endl;
+    std::cout << " * Local XDG Directory:   " << _xdg_default_local  << std::endl;
+    std::cout << " * Current exec Model:    " << noexec << std::endl;
 
-	std::cout << "" << std::endl;
-	std::cout << " - Chef Tagliamonte" << std::endl;
-	std::cout << "       & The Fluxbox Crew" << std::endl;
-	std::cout << "" << std::endl;
+    std::cout << "" << std::endl;
+    std::cout << " - Chef Tagliamonte" << std::endl;
+    std::cout << "       & The Fluxbox Crew" << std::endl;
+    std::cout << "" << std::endl;
 }
 
 /**
  * XXX: Document me
  */
 std::string fix_home_pathing( std::string ref, std::string home ) {
-	// std::cout << "preref: " << ref << std::endl;
-	if ( ref[0] == '~' && ref[1] == '/' ) {
-		// std::cout << " +-> confirmed." << std::endl;
-		ref.replace(0, 1, home );
-		// std::cout << " +-> postref: " << ref << std::endl;
-	}
-	return ref;
+    // std::cout << "preref: " << ref << std::endl;
+    if ( ref[0] == '~' && ref[1] == '/' ) {
+        // std::cout << " +-> confirmed." << std::endl;
+        ref.replace(0, 1, home );
+        // std::cout << " +-> postref: " << ref << std::endl;
+    }
+    return ref;
 }
 
 /**
  * XXX: Doc me
  */
 void command_line_overrides( int argc, char ** arv ) {
-	for ( int i = 1; i < argc; ++i ) {
-		// process argv[i]
-	}
+    for ( int i = 1; i < argc; ++i ) {
+        // process argv[i]
+    }
 }
 
 int main ( int argc, char ** argv ) {
-	pre_exec(); /* pre_exec allows us to read goodies and set up
-	               the env for us. */
+    pre_exec(); /* pre_exec allows us to read goodies and set up
+                   the env for us. */
 
-	xdg_autostart_map binaries; /* the map of what stuff to start
-	                               up or ignore or whatever. */
+    xdg_autostart_map binaries; /* the map of what stuff to start
+                                   up or ignore or whatever. */
 
-	parse_folder( &binaries, _xdg_default_global + "/autostart/" );
-	parse_folder( &binaries, _xdg_default_local  + "/autostart/" );
-	/*
-	 * Let's kick off the parse routines on the directories.
-	 */
+    parse_folder( &binaries, _xdg_default_global + "/autostart/" );
+    parse_folder( &binaries, _xdg_default_local  + "/autostart/" );
+    /*
+     * Let's kick off the parse routines on the directories.
+     */
 
-	std::cout << "" << std::endl;
-	std::cout << "Finished parsing all files." << std::endl;
-	std::cout << "" << std::endl;
+    std::cout << "" << std::endl;
+    std::cout << "Finished parsing all files." << std::endl;
+    std::cout << "" << std::endl;
 
-	for ( xdg_autostart_map::iterator i = binaries.begin();
-		i != binaries.end(); ++i
-	) {
-		std::cout << "  Handling stub for: " << i->first << std::endl;
-		run_command( i->second );
-		/* foreach command, let's run it :) */
-	}
+    for ( xdg_autostart_map::iterator i = binaries.begin();
+            i != binaries.end(); ++i
+        ) {
+        std::cout << "  Handling stub for: " << i->first << std::endl;
+        run_command( i->second );
+        /* foreach command, let's run it :) */
+    }
 }
 

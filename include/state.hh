@@ -24,10 +24,10 @@
 #define STATE_H_ ja
 
 class state {
-	public:
-		virtual void leave_state();
-		virtual void enter_state();
-		virtual void process( char c );
+    public:
+        virtual void leave_state();
+        virtual void enter_state();
+        virtual void process( char c );
 };
 
 #endif

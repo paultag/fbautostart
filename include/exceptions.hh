@@ -23,30 +23,30 @@
 #include <exception>
 
 class parser_exception : public std::exception {
-	private:
-		int row;
-		int col;
-	public:
-		parser_exception(int row, int col) {
-			this->row = row;
-			this->col = col;
-		}
-		virtual const char* what() const throw() {
-			return "Parsing exception";
-		}
+    private:
+        int row;
+        int col;
+    public:
+        parser_exception(int row, int col) {
+            this->row = row;
+            this->col = col;
+        }
+        virtual const char* what() const throw() {
+            return "Parsing exception";
+        }
 };
 
 class incomplete_process : public std::exception {
-	public:
-		virtual const char* what() const throw() {
-			return "Incomplete parsing";
-		}
+    public:
+        virtual const char* what() const throw() {
+            return "Incomplete parsing";
+        }
 };
 
 class hidden_file : public std::exception {
-	public:
-		virtual const char* what() const throw() {
-			return "Incomplete parsing";
-		}
+    public:
+        virtual const char* what() const throw() {
+            return "Incomplete parsing";
+        }
 };
 

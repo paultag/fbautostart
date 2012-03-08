@@ -36,38 +36,38 @@ std::string xdg_state_value_lastparsed;
 
 void value::leave_state() {
 
-	std::string group = xdg_state_group_lastparsed;
-	std::string key   = xdg_state_key_lastparsed;
-	std::string value = xdg_state_value_lastparsed;
+    std::string group = xdg_state_group_lastparsed;
+    std::string key   = xdg_state_key_lastparsed;
+    std::string value = xdg_state_value_lastparsed;
 
-	xdg_model_entries::iterator iter = xdg_parsed_file.find(group);
+    xdg_model_entries::iterator iter = xdg_parsed_file.find(group);
 
-	if (iter != xdg_parsed_file.end()) {
-		xdg_model_entry *  group_map = &iter->second;
-		xdg_model_entry_t  new_item( key, value );
-		group_map->insert(new_item);
-	} else {
-		xdg_model_entry      group_map;
-		xdg_model_entry_t    new_item( key, value );
-		group_map.insert(new_item);
-		xdg_model_entries_t  payload( group, group_map );
-		xdg_parsed_file.insert(payload);
-	}
+    if (iter != xdg_parsed_file.end()) {
+        xdg_model_entry *  group_map = &iter->second;
+        xdg_model_entry_t  new_item( key, value );
+        group_map->insert(new_item);
+    } else {
+        xdg_model_entry      group_map;
+        xdg_model_entry_t    new_item( key, value );
+        group_map.insert(new_item);
+        xdg_model_entries_t  payload( group, group_map );
+        xdg_parsed_file.insert(payload);
+    }
 }
 
 void value::enter_state() {
-	xdg_state_value_lastparsed = "";
+    xdg_state_value_lastparsed = "";
 }
 
 void value::process( char c ) {
-	switch ( c ) {
-		case '\n':
-			xdg_machine_next_state = &xdg_entry;
-			break;
-		default:
-			/* push back char */
-			xdg_state_value_lastparsed.append(1, c);
-			break;
-	}
+    switch ( c ) {
+        case '\n':
+            xdg_machine_next_state = &xdg_entry;
+            break;
+        default:
+            /* push back char */
+            xdg_state_value_lastparsed.append(1, c);
+            break;
+    }
 }
 
