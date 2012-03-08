@@ -85,6 +85,7 @@ void parse_folder( xdg_autostart_map * binaries, std::string folder ) {
             if (
                     strcmp(ent->d_name, ".")  != 0 &&
                     strcmp(ent->d_name, "..") != 0
+                    /* XXX: Check to make sure it's actually a .desktop */
                ) {
                 // std::cout << "Loading: " << folder + "/" + ent->d_name << " ";
                 try {
