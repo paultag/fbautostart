@@ -42,7 +42,15 @@
 bool noexec = false;
 
 /**
- * XXX: Docme
+ * Run a given command (as if we were invoking from a shell)
+ *
+ * This will fork and run the `appl` command in either $SHELL (if set), or
+ * /bin/sh if $SHELL is unset. This will fork to the background and return
+ * control very quickly. Don't use this to do a blocking read on a process
+ * or something.
+ *
+ * @param appl application to run
+ * @return 0 (for the parent fork, which should be what you get), pid for child.
  */
 int run_command( std::string appl ) {
     if ( appl == "" )
@@ -76,7 +84,13 @@ int run_command( std::string appl ) {
 }
 
 /**
- * XXX: Document me
+ * pre exec routines, such as setup, setting the internal state and checks
+ *
+ * all of these should be safe to run more then once, and it should *always*
+ * be run before allowing a stateful parse to happen.
+ *
+ * It'll also print out a fairly useful block of text to aid with debugging
+ * problems down the road.
  */
 void pre_exec() {
     const char * home       = getenv("XDG_CONFIG_HOME");
@@ -162,7 +176,11 @@ void pre_exec() {
 }
 
 /**
- * XXX: Document me
+ * expand tildes to the user's actual home
+ *
+ * @param ref string to expand
+ * @param home path to user's home
+ * @return either a newly expanded string or the old string
  */
 std::string fix_home_pathing( std::string ref, std::string home ) {
     // std::cout << "preref: " << ref << std::endl;
