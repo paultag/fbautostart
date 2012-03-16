@@ -30,10 +30,22 @@
 state * xdg_machine_next_state;
 state * xdg_machine_curr_state;
 
+/**
+ * This basically "primes" the machine to start processing. We'd hate to get a
+ * segfault right off the bat ;)
+ */
 void xdg_machine_turnkey() {
     xdg_machine_curr_state = xdg_machine_next_state;
 }
 
+/**
+ * Feed a char into the machine. This will either give the char to the current
+ * state, be processed and return, process the char, then redirect, or
+ * push the char back out and redirect.
+ *
+ * This should handle all the magic for you. Just keep feeding it bits and it'll
+ * keep processing them for you. It's recursive, so beware that.
+ */
 void xdg_machine_process( char c ) {
     bool passchar = false;
 

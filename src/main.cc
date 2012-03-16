@@ -210,9 +210,7 @@ int main ( int argc, char ** argv ) {
 
     parse_folder( &binaries, _xdg_default_global + "/autostart/" );
     parse_folder( &binaries, _xdg_default_local  + "/autostart/" );
-    /*
-     * Let's kick off the parse routines on the directories.
-     */
+    /* Let's kick off the parse routines on the directories. */
 
     std::cout << "" << std::endl;
     std::cout << "Finished parsing all files." << std::endl;
