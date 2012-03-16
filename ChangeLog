@@ -1,3 +1,9 @@
+2012-03-16  Paul Tagliamonte  <paultag@fluxbox.org>
+
+* src/xdg_parse.cc(parse_folder): Adjusted this function to only parse
+.desktop files. This closes a recently filed bug.
+* src/xdg_parse.cc(ends_with): Added this function.
+
 2012-03-08  Paul Tagliamonte  <paultag@fluxbox.org>
 
 * Re-indenteded all the files to use spaces rather then tabs.
