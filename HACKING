@@ -107,8 +107,9 @@ consistant. Try to maintain that, if you can. I'd be more then happy to help
 give a bit of help if it's unclear.
 
 |
-| int f       = 1;
-| int longvar = 2;
+| int         f       = 1;
+| int         longvar = 2;
+| std::string bar     = "baz";
 |
 | if ( f )
 |     baz();
@@ -139,8 +140,8 @@ These are in no particular order.
        are OK too.
 
   (3): Add yourself to AUTHORS on the *FIRST* commit. This is for my protection
-       and records as it is a nice way for contributors to see their name in the
-       project.
+       and records as well as being a nice way for contributors to see their
+       name in the project.
 
   (4): Add yourself to the license header of each file you modify, along with
        the date and a *valid* email. Do not change the license copyright block,
@@ -148,7 +149,7 @@ These are in no particular order.
        since I'm not re-licensing my code.
 
   (5): If you add a change to the binary's invocation or logic that the user is
-      exposed to, please note the change in the manual page. Adjust copyirght
+       exposed to, please note the change in the manual page.
 
   (6): If you see you're out of date, please rebase rather then merge. It's a
        few seconds of your time, and it helps keep the history clean.
