@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Paul Tagliamonte
+ * Copyright (C) 2011, Paul Tagliamonte <paultag@fluxbox.org>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,10 @@
 #include "xdg_autostart.hh"
 
 /**
- * XXX: Document me
+ * Use the internal state-machine implementation to process a file into the
+ * internal datastructure's format.
+ *
+ * @param file file to parse
  */
 void parse_file ( std::string file ) {
     std::ifstream fd(file.c_str(), std::ios::in | std::ios::binary);
@@ -72,7 +75,33 @@ void parse_file ( std::string file ) {
 }
 
 /**
- * XXX: Document me
+ * Check to see if a string ends with another char sequence.
+ *
+ * @param source string to compare against
+ * @param cmp string to attempt to find at the end of the source string.
+ * @return if `cmp` is the ending sequence to `source`.
+ */
+bool ends_with( char * source, const char * cmp ) {
+    int s_len = strlen(source);
+    int s_cmp = strlen(cmp);
+    if ( s_len < s_cmp )
+        return false;
+    for ( int i = s_cmp; i > 0; --i ) {
+        int offs1 = (s_len - i);
+        int offs2 = (s_cmp - i);
+        if ( source[offs1] != cmp[offs2] )
+            return false;
+    }
+    return true;
+}
+
+/**
+ * Attempt to process a directory full of files into a datastructure.
+ *
+ * @warning this will ignore *all* files that *do not* end with ".desktop".
+ *
+ * @param binaries data structure to map the directory to
+ * @param folder folder on the filesystem to process
  */
 void parse_folder( xdg_autostart_map * binaries, std::string folder ) {
     DIR * dir;
@@ -84,8 +113,8 @@ void parse_folder( xdg_autostart_map * binaries, std::string folder ) {
         while ((ent = readdir(dir)) != NULL) {
             if (
                     strcmp(ent->d_name, ".")  != 0 &&
-                    strcmp(ent->d_name, "..") != 0
-                    /* XXX: Check to make sure it's actually a .desktop */
+                    strcmp(ent->d_name, "..") != 0 &&
+                    ends_with(ent->d_name, ".desktop")
                ) {
                 // std::cout << "Loading: " << folder + "/" + ent->d_name << " ";
                 try {

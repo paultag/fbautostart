@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Paul Tagliamonte
+ * Copyright (C) 2011, Paul Tagliamonte <paultag@fluxbox.org>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
