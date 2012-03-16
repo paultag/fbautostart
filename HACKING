@@ -1,0 +1,193 @@
+Howdy, interested contributor,
+
+My name's Paul, and I've done some of the work designing and implementing this
+particular bit of software. Since you're interested in hacking on this code,
+I'd like to make a few things clear up front, so you don't end up hating me.
+
+How it works
+============
+
+OK, so this code is actually a pretty novel class-based state machine. The code
+may look to some like it's too spread-out (e.g. using "include magic" to drive
+the logic), and perhaps that critisism has some merit, but the code's here, and
+it's very maintainable.
+
+The code processes a stream of bytes, one char at a time.
+
+ +-------+       +-------+       +---------+       +--------------+
+ | bytes | ----> | logic | ----> | machine | ----> | (some state) |
+ +-------+       +-------+       +---------+       +--------------+
+
+This means (to be clear) under *no* situations I've seen so far will accessing
+a state directly from the logic be OK. All state interactions must pass through
+the machine, since we must not depend on a state by name in the logic. That
+logic is defined in the states themselves.
+
+State UML class diagram:
+
+    +---------------------------+
+    |           state           |
+    +---------------------------+
+    | +leave_state(void) : void |
+    | +enter_state(void) : void |
+    | +process(char)     : void |
+    +---------------------------+
+
+`leave_state` is called when process has returned a state other then the current
+              state. This is a chance for you to finalize the logic without
+              having sloppy process code.
+
+`enter_state` is called when another state has triggered an entry to this state.
+              This is where you would init old data structures, etc.
+
+`process`     handle a char, and deal with as one should. By raising an
+              exception (incomplete_process), you can "redirect" the char.
+              By changing the "xdg_machine_next_state" pointer, you will
+              trigger the enter / leave functions.
+
+Basic guideliens:
+
+States must only be aware of states that it transitions to (not even where
+it's transitioning from), and must only interact with those states by setting
+the correct machine pointer.
+
+The exception here is accessing another state's data structure. For instance,
+in "value", we know that we must have only come from "key", and we really,
+really need "key"'s data structure. In this case, using the symbols exported
+in that state's .hh def is allowed. Try to keep this to a minimum, it makes
+it very hard to keep some of it up to date, or swap out state implementations.
+
+Current impl:
+
+    +-------------------------------------------------------------+
+    |                                                             |
+    |        +------------------------------------+-----+         |
+    |        v                                    |     |         |
+    |      (entry) ---- "#" ----> (comment) ---- "\n"   |         |
+    |      | \ ^ \                                      |         |
+    |      |  \ \  + ---- "[" ----> (group) ---- "]" ---+         |
+    |      |   \ \                     \------------------ "\n" --+
+    |      |    \ +---------------------------------------- "\n" ------+
+    |      |     \                                                     |
+    |      |       + ---- [anything else] ----> (key) ---- "=" ----> (value)
+    |     "="                                    |
+    |      |                                   "\n"
+    |      |                                     |
+    +-> (invalid) <------------------------------|
+
+
+Yes, I relize this is *VERY* messy. It's not really something that lends it's
+self to ascii art. Just start at "entry" and work from there.
+
+Code Style
+==========
+
+My style is fairly straight forward. Just try to make code look like the rest
+of the code. I know I sometimes violate my own rules, but the big stuff is
+consistant. Try to maintain that, if you can. I'd be more then happy to help
+give a bit of help if it's unclear.
+
+|
+| int f       = 1;
+| int longvar = 2;
+|
+| if ( f )
+|     baz();
+|
+| if ( foo == baz ) { /* This is a comment about this unclear bit
+|                        of code, which should help with something */
+|     baz_foo();
+|     foo_baz();
+| } else {
+|     groble();
+| }
+|
+
+Submitting code for review
+==========================
+
+Gudelienes (I will always reject code because one of these is not right)
+These are in no particular order.
+
+  (1): Write a helpful git changelog entry.
+
+  (2): Provide the code under terms compatable with the COPYRIGHT file. I prefer
+       Expat (since it's the license in the COPYRIGHT), but compatable licenses
+       are OK too.
+
+  (3): Add yourself to AUTHORS on the *FIRST* commit. This is for my protection
+       and records as it is a nice way for contributors to see their name in the
+       project.
+
+  (4): Add yourself to the license header of each file you modify, along with
+       the date and a *valid* email. Do not change the license copyright block,
+       since the license you've choosen will be Expat compatable (see point 2),
+       since I'm not re-licensing my code.
+
+  (5): If you add a change to the binary's invocation or logic that the user is
+      exposed to, please note the change in the manual page. Adjust copyirght
+
+  (6): If you see you're out of date, please rebase rather then merge. It's a
+       few seconds of your time, and it helps keep the history clean.
+
+  (7): Use a valid email throughout all the copyrights, etc.
+
+GitHub Pull Request
+  This method makes it really easy for me to keep track of incoming code in the
+  same tracker I use to maintain this project. As such, this is the way I
+  prefer to see code come in. Some advice (purely advice, this won't cause
+  me to kick code back)
+
+     - Consider using branches to help break features and bugfixes into easy
+       to review and merge blocks. If some pull requests "depend" on others,
+       that's OK. Just let me know, and I'll do the dependency resolution.
+
+     - File bugs early, if you mention you're working on a fix, I'll wait for
+       you to send your code in. I'd rather have a bug then not.
+
+Format Patch Series
+  This method is 100% fine, as it's the way we do patches in Fluxbox it's self.
+  This may also be helpful if you're not using GitHub for reasons such as it's
+  status as a free software project. Some advice (only advice, I won't reject
+  code that breaks the following rules)
+
+    - Consider attaching format-patches as attachments to a "Hello!" email
+      where you describe what the series does, why it's something that's
+      important and any other feedback you have for me. If you decide to GPG
+      sign any of the mails, this is the one to do it on.
+
+    - If you don't care for the above advice, git-send-email works fine too.
+      Just make sure you have extra-descriptive commit messages.
+
+General diff
+  I would rather not get a raw diff, but if you must, it's OK. With this,
+  please include your full name and email (or, rather, *a* full name & working
+  email) for me to commit the code as. If you'd rather not expose your email,
+  that's OK. Just let me know. I won't assume the mail address you sent me mail
+  with is that one that you'd like to make public (perhaps you use tags, public
+  accounts, etc), so I will ask if you don't include it.
+
+  Some additional (and more strictly enforced) tips:
+
+    - Be sure the patch applies aginst git head.
+    - Be sure the patch applies with -p1
+    - Unified diff, please (try passing -Nuarp to diff)
+
+  Some nice to do advice:
+
+    - Feel free to add email (or http) style headers to the top of a patch
+      to serve as a "commit message" (see the exampe[1])
+
+
+[1]:
+    From:    Joe Hacker <jhacker@whube.com>
+    Subject: Adding in "this is a test" to foo1.
+
+      Adding in a little message :)
+
+    diff -Nuarp bar/foo1 foo/foo1
+    --- bar/foo1    1970-01-01 00:00:00.000000000 +0000
+    +++ foo/foo1    2012-03-16 02:07:12.131507334 +0000
+    @@ -0,0 +1 @@
+    +This is a test
+
