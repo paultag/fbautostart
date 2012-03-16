@@ -1,8 +1,12 @@
+<braindump>
+
 Howdy, interested contributor,
 
 My name's Paul, and I've done some of the work designing and implementing this
 particular bit of software. Since you're interested in hacking on this code,
 I'd like to make a few things clear up front, so you don't end up hating me.
+
+Perhaps you'll still end up hating me, but at least it'll be informed hate.
 
 How it works
 ============
@@ -11,6 +15,21 @@ OK, so this code is actually a pretty novel class-based state machine. The code
 may look to some like it's too spread-out (e.g. using "include magic" to drive
 the logic), and perhaps that critisism has some merit, but the code's here, and
 it's very maintainable.
+
+Why did I rebuild a state machine?
+
+You know, it's a good question. I'd not mind re-considering this, provided that
+the new implementation is better.
+
+I don't see some of the other stuff maintainable or readable, so this was mostly
+just a rejection of what I found. It's a CS101 topic, so I figured I'd be
+able to implement something workable that's clean, clear and maintainable
+without too much issue.
+
+If you think this is wrong, email me and let me know why. I'm seriously
+interested.
+
+Alright, enough. So, how does it work?
 
 The code processes a stream of bytes, one char at a time.
 
@@ -178,6 +197,9 @@ General diff
     - Feel free to add email (or http) style headers to the top of a patch
       to serve as a "commit message" (see the exampe[1])
 
+    - Most of the time, this *will* be more complex then using git. Think really
+      hard about using git format-patch. It makes it a little harder on me, and
+      much harder for you.
 
 [1]:
     From:    Joe Hacker <jhacker@whube.com>
@@ -191,3 +213,16 @@ General diff
     @@ -0,0 +1 @@
     +This is a test
 
+
+Thanks for reading, and thanks for considering contributing to fbautostart.
+Feel free to get in touch with me by email, irc, jabber, reddit, twitter,
+identi.ca, github, launchpad, or any other protocol you might happen to find
+me on.
+
+Anyway, I know there's a lot here. Treat it like a ref-doc throughout
+contributing to fbautostart.
+
+Hope this helps,
+ -- Paul
+
+</braindump>
