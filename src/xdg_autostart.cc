@@ -29,14 +29,19 @@
 #include "xdg_autostart.hh"
 
 /**
- * XXX: Document me
+ * Get the [Desktop Entry] of the last parsed file.
+ *
+ * @return an xdg_autostart_pair that represents the last parsed desktop group.
  */
 xdg_autostart_pair xdg_autostart_last_parsed() {
     return xdg_autostart_last_parsed("Desktop Entry");
 }
 
 /**
- * XXX: Document me
+ * Get an autostart pair of the group of your choosing.
+ *
+ * @param group group to search for
+ * @return the group in question, as a xdg_autostart_pair
  */
 xdg_autostart_pair xdg_autostart_last_parsed(std::string group) {
     xdg_model_entries::iterator entries = xdg_parsed_file.find(group);
@@ -53,9 +58,7 @@ xdg_autostart_pair xdg_autostart_last_parsed(std::string group) {
         std::string    hidden  = asf["Hidden"];
         std::string      exec  = asf["Exec"];
 
-
         bool notshowin  = (notshow.find( _xdg_window_manager) != std::string::npos);
-
 
         std::cout << "Now Serving: " << name << std::endl;
 
