@@ -122,6 +122,10 @@ give a bit of help if it's unclear.
 | }
 |
 
+"XXX:", "TODO:" and "FIXME:" are all valid task tags. Please use these when you
+find something in the code that's not critical, not really worth a bug, but
+should be fixed at some point. I tend to use "XXX:".
+
 Submitting code for review
 ==========================
 
