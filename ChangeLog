@@ -6,6 +6,7 @@
 * Changed all the headers to show my fluxbox email rather then no email.
 * Added documentation blocks to all non-straight forward routines. I'm tired
 of not remembering what my old code does :)
+* Added a HACKING document to help people work on the code (or myself).
 
 2012-03-08  Paul Tagliamonte  <paultag@fluxbox.org>
 
