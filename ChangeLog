@@ -3,6 +3,9 @@
 * src/xdg_parse.cc(parse_folder): Adjusted this function to only parse
 .desktop files. This closes a recently filed bug.
 * src/xdg_parse.cc(ends_with): Added this function.
+* Changed all the headers to show my fluxbox email rather then no email.
+* Added documentation blocks to all non-straight forward routines. I'm tired
+of not remembering what my old code does :)
 
 2012-03-08  Paul Tagliamonte  <paultag@fluxbox.org>
 
