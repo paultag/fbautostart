@@ -1,3 +1,7 @@
+2012-04-03  Paul Tagliamonte  <paultag@fluxbox.org>
+
+* src/main.cc: Including unistd.h, since we use both fork and execl
+
 2012-03-16  Paul Tagliamonte  <paultag@fluxbox.org>
 
 * src/xdg_parse.cc(parse_folder): Adjusted this function to only parse
