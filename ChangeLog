@@ -1,6 +1,8 @@
 2012-04-03  Paul Tagliamonte  <paultag@fluxbox.org>
 
 * src/main.cc: Including unistd.h, since we use both fork and execl
+* Version bump to 2.71828182, bugfix for gcc-2.7. Thanks for the report,
+Matthias Klose (doko).
 
 2012-03-16  Paul Tagliamonte  <paultag@fluxbox.org>
 
