@@ -1,7 +1,7 @@
 # doc/Makefile.am for Fluxbox 0.9  - an X11 Window manager
 # Makefile.am for fluxbox/doc
 
-CLEANFILES = fbautostart.1 
+CLEANFILES = fbautostart.1
 man_MANS   = fbautostart.1
 EXTRA_DIST = fbautostart.1.in
 
