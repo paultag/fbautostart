@@ -21,11 +21,13 @@
  */
 
 #include <string>
-#include <string.h>
-#include <iostream>
+#include <vector>
 #include <fstream>
 #include <cstdlib>
 #include <stdio.h>
+#include <string.h>
+#include <sstream>
+#include <iostream>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -85,6 +87,20 @@ int run_command( std::string appl ) {
 }
 
 /**
+ *
+ */
+std::vector<std::string> split_path( std::string input ) {
+    std::vector<std::string> ret;
+    std::stringstream ss(input);
+    std::string word;
+    char delim = ':';
+    while ( std::getline( ss, word, delim ) ) {
+        ret.push_back(word);
+    }
+    return ret;
+}
+
+/**
  * pre exec routines, such as setup, setting the internal state and checks
  *
  * all of these should be safe to run more then once, and it should *always*
@@ -96,7 +112,6 @@ int run_command( std::string appl ) {
 void pre_exec() {
     const char * home       = getenv("XDG_CONFIG_HOME");
     const char * dirs       = getenv("XDG_CONFIG_DIRS");
-    const char * userhome   = getenv("HOME");
     const char * desktopenv = getenv("FBXDG_DE");
     const char * execmodel  = getenv("FBXDG_EXEC");
 
@@ -126,27 +141,20 @@ void pre_exec() {
 
     _xdg_default_global = dirs       == blank ? _xdg_default_global : dirs;
     _xdg_default_local  = home       == blank ? _xdg_default_local  : home;
-    _xdg_window_manager = desktopenv == blank ? _xdg_window_manager  : desktopenv;
+    _xdg_window_manager = desktopenv == blank ? _xdg_window_manager : desktopenv;
     /*
      * If we have a env var, set them to the global prefs.
      */
 
-    if ( strcmp(execmodel,"0") == 0 )
+    if ( strcmp(execmodel,"0") == 0 ) {
         noexec = false;
-    else if ( strcmp(execmodel,"1") == 0 )
+    } else if ( strcmp(execmodel,"1") == 0 ) {
         noexec = true;
+    }
     /*
      * Fuck this mess. Someone needs to clean this up to use true/false
      * and have it relate in a sane way.
      * XXX: Fixme
-     */
-
-    _xdg_default_global = fix_home_pathing( _xdg_default_global, userhome );
-    _xdg_default_local  = fix_home_pathing( _xdg_default_local,  userhome );
-    /*
-     * If the luser gives us (or we default to) a path with tlde in it,
-     * let's expand it to use $HOME to figure out where the real path actually
-     * is.
      */
 
     std::cout << "" << std::endl;
@@ -203,15 +211,26 @@ void command_line_overrides( int argc, char ** arv ) {
 }
 
 int main ( int argc, char ** argv ) {
+    const char * userhome   = getenv("HOME");
+
     pre_exec(); /* pre_exec allows us to read goodies and set up
                    the env for us. */
 
     xdg_autostart_map binaries; /* the map of what stuff to start
                                    up or ignore or whatever. */
 
-    parse_folder( &binaries, _xdg_default_global + "/autostart/" );
-    parse_folder( &binaries, _xdg_default_local  + "/autostart/" );
-    /* Let's kick off the parse routines on the directories. */
+
+    std::vector<std::string> global = split_path(_xdg_default_global);
+    std::vector<std::string> local  = split_path(_xdg_default_local);
+
+    for ( unsigned int i = 0; i < global.size(); ++i ) {
+        std::string path = fix_home_pathing(global.at(i), userhome);
+        parse_folder( &binaries, path + "/autostart/" );
+    }
+    for ( unsigned int i = 0; i < local.size(); ++i ) {
+        std::string path = fix_home_pathing(local.at(i), userhome);
+        parse_folder( &binaries, path + "/autostart/" );
+    }
 
     std::cout << "" << std::endl;
     std::cout << "Finished parsing all files." << std::endl;
