@@ -15,6 +15,13 @@ function assert {
     fi
     echo "$1 OK"
 }
+function assert_not {
+    if [ -e $1 ]; then
+        echo "ERROR! FILE EXISTS: $1"
+        exit 1
+    fi
+    echo "$1 OK (DNE)"
+}
 
 export XDG_CONFIG_HOME=$TESTROOT/testdirl1
 export XDG_CONFIG_DIRS=$TESTROOT/testdirg1:$TESTROOT/testdirg2:$TESTROOT/testdirg3
@@ -22,10 +29,25 @@ export XDG_CONFIG_DIRS=$TESTROOT/testdirg1:$TESTROOT/testdirg2:$TESTROOT/testdir
 rm $RUNROOT/*
 cd $RUNROOT
 
-fbautostart
+fbautostart >/dev/null
+sleep 1
 
 for x in tdg1.1  tdg1.2  tdg2.1  tdg2.2  tdg3.1  tdg3.2  tdl1.1  tdl1.2; do
     assert $x
 done
+
+echo "Stage one OK"
+
+cd -
+
+rm $RUNROOT/*
+cd $RUNROOT
+
+export XDG_CONFIG_HOME=$XDG_CONFIG_HOME:$TESTROOT/testdirl2
+fbautostart >/dev/null
+sleep 1
+
+assert_not tdg1.1
+assert_not tdg1.2
 
 cd -

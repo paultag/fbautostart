@@ -121,6 +121,10 @@ void parse_folder( xdg_autostart_map * binaries, std::string folder ) {
                     parse_file(folder + "/" + ent->d_name);
                     xdg_autostart_pair r = xdg_autostart_last_parsed();
                     xdg_parsed_file.clear();
+                    xdg_autostart_map::iterator it = binaries->find(ent->d_name);
+                    if ( it != binaries->end() ) {
+                        binaries->erase(it);
+                    }
                     binaries->insert(xdg_autostart_pair(ent->d_name, r.second));
                 } catch ( parser_exception * ex ) {
                     std::cerr << "Exception parsing " << ent->d_name << std::endl;
