@@ -1,4 +1,4 @@
-AC_INIT([fbautostart], [2.71828182])
+AC_INIT([fbautostart], [2.718281828])
 AM_INIT_AUTOMAKE([foreign subdir-objects])
 AC_CONFIG_SRCDIR([configure.ac])
 AC_CONFIG_HEADERS([config.h])     # not even really needed

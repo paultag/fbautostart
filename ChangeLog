@@ -1,5 +1,7 @@
 2012-06-17  Paul Tagliamonte  <paultag@fluxbox.org>
 
+* ERRATTUM: The fix was for gcc-4.7, not 2.7.
+
 * src/main.cc: Properly handle paths with a ":" in them (thanks for the
 report, confluence!) - Related to bug #2 on GitHub.
 * maintainer/*: New directory. This contains a properly set up XDG root to
@@ -7,6 +9,7 @@ use for some basic testing. Might come in handy later, so I've included it in
 the git tree.
 * src/xdg_parse.cc: Check for the key before attempting to insert - std::map
 will fail to insert if the key already exists, we want to overwrite.
+* Version bump to 2.718281828
 
 2012-04-03  Paul Tagliamonte  <paultag@fluxbox.org>
 
