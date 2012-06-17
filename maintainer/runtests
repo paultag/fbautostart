@@ -1,0 +1,31 @@
+#!/bin/bash
+
+CWD=`pwd`
+TESTROOT=$CWD/testdirs
+RUNROOT=$CWD/runroot
+
+if [ ! -d $RUNROOT ]; then
+    mkdir -p $RUNROOT
+fi
+
+function assert {
+    if [ ! -e $1 ]; then
+        echo "ERROR! FILE DNE: $1"
+        exit 1
+    fi
+    echo "$1 OK"
+}
+
+export XDG_CONFIG_HOME=$TESTROOT/testdirl1
+export XDG_CONFIG_DIRS=$TESTROOT/testdirg1:$TESTROOT/testdirg2:$TESTROOT/testdirg3
+
+rm $RUNROOT/*
+cd $RUNROOT
+
+fbautostart
+
+for x in tdg1.1  tdg1.2  tdg2.1  tdg2.2  tdg3.1  tdg3.2  tdl1.1  tdl1.2; do
+    assert $x
+done
+
+cd -
