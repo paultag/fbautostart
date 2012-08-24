@@ -13,7 +13,7 @@ How it works
 
 OK, so this code is actually a pretty novel class-based state machine. The code
 may look to some like it's too spread-out (e.g. using "include magic" to drive
-the logic), and perhaps that critisism has some merit, but the code's here, and
+the logic), and perhaps that criticism has some merit, but the code's here, and
 it's very maintainable.
 
 Why did I rebuild a state machine?
@@ -95,15 +95,15 @@ Current impl:
     +-> (invalid) <------------------------------|
 
 
-Yes, I relize this is *VERY* messy. It's not really something that lends it's
-self to ascii art. Just start at "entry" and work from there.
+Yes, I realize this is *VERY* messy. It's not really something that lends 
+itsself to ascii art. Just start at "entry" and work from there.
 
 Code Style
 ==========
 
 My style is fairly straight forward. Just try to make code look like the rest
 of the code. I know I sometimes violate my own rules, but the big stuff is
-consistant. Try to maintain that, if you can. I'd be more then happy to help
+consistent. Try to maintain that, if you can. I'd be more then happy to help
 give a bit of help if it's unclear.
 
 |
@@ -130,13 +130,13 @@ should be fixed at some point. I tend to use "XXX:".
 Submitting code for review
 ==========================
 
-Gudelienes (I will always reject code because one of these is not right)
+Guidelines (I will always reject code because one of these is not right)
 These are in no particular order.
 
   (1): Write a helpful git changelog entry.
 
-  (2): Provide the code under terms compatable with the COPYRIGHT file. I prefer
-       Expat (since it's the license in the COPYRIGHT), but compatable licenses
+  (2): Provide the code under terms compatible with the COPYRIGHT file. I prefer
+       Expat (since it's the license in the COPYRIGHT), but compatible licenses
        are OK too.
 
   (3): Add yourself to AUTHORS on the *FIRST* commit. This is for my protection
@@ -145,7 +145,7 @@ These are in no particular order.
 
   (4): Add yourself to the license header of each file you modify, along with
        the date and a *valid* email. Do not change the license copyright block,
-       since the license you've choosen will be Expat compatable (see point 2),
+       since the license you've chosen will be Expat compatible (see point 2),
        since I'm not re-licensing my code.
 
   (5): If you add a change to the binary's invocation or logic that the user is
