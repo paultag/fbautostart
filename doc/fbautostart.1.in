@@ -34,9 +34,9 @@ fbautostart \- Autostart all XDG applications
 \fBfbautostart\fR [\fIoptions\fR]
 .SH "DESCRIPTION"
 .sp
-\fBfbautostart(1)\fR is an XDG complaint startup tool\&. This will go through the directories set up by the spec, and start all applications that match it\(cqs current identifier\&. You may change that identifier with the \fBFBXDG_DE\fR env var\&.
+\fBfbautostart(1)\fR is an XDG compliant startup tool\&. This will go through the directories set up by the spec, and start all applications that match its current identifier\&. You may change that identifier with the \fBFBXDG_DE\fR env var\&.
 .sp
-This tool has almost no library dependencies and was written to be smart about that sort of stuff\&. There is a greater then average chance that you will find a bug, since it is a from\-scratch implementation of the \&.desktop spec\&. Pleas report bugs\&. Please\&.
+This tool has almost no library dependencies and was written to be smart about that sort of stuff\&. There is a greater then average chance that you will find a bug, since it is a from\-scratch implementation of the \&.desktop spec\&. Please report bugs\&. Please\&.
 .SH "FILES"
 .PP
 \fB~/\&.config/autostart\fR
@@ -65,7 +65,7 @@ The root XDG directory, where global XDG files are maintained\&.
 .PP
 \fBFBXDG_DE\fR
 .RS 4
-Development environment that we should act upon\&. This defaults to "FLUXBOX", since this is a fluxbox project, after all\&. Please note this is case sensitive\&.
+Desktop environment that we should act upon\&. This defaults to "FLUXBOX", since this is a fluxbox project, after all\&. Please note this is case sensitive\&.
 .RE
 .PP
 \fBFBXDG_EXEC\fR
@@ -75,7 +75,7 @@ This dictates if we should execute the application that we\(cqve been told to or
 .PP
 \fBHOME\fR
 .RS 4
-The location of one\(cqs home directory, such that ~/ will be expanded to /home/user/
+The location of the user\(cqs home directory, such that ~/ will be expanded to /home/user/
 .RE
 .SH "EXAMPLE"
 .sp
