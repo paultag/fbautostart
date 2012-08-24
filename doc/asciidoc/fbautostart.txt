@@ -16,9 +16,9 @@ SYNOPSIS
 
 DESCRIPTION
 -----------
-*fbautostart(1)* is an XDG complaint startup tool. This will
+*fbautostart(1)* is an XDG compliant startup tool. This will
 go through the directories set up by the spec, and start all
-applications that match it's current identifier. You may change
+applications that match its current identifier. You may change
 that identifier with the *FBXDG_DE* env var.
 
 This tool has almost no library dependencies and was written to be smart
@@ -53,7 +53,7 @@ ENVIRONMENT VARIABLES
 	maintained.
 
 *FBXDG_DE*::
-	Development environment that we should act upon. This
+	Desktop environment that we should act upon. This
 	defaults to "FLUXBOX", since this is a fluxbox project,
 	after all. Please note this is case sensitive.
 
@@ -62,13 +62,13 @@ ENVIRONMENT VARIABLES
 	we've been told to or not. This is particularly useful
 	for debugging the app.
 
-    Set this value to 0 to execute, and 1 to play dummy. I relize how silly
+    Set this value to 0 to execute, and 1 to play dummy. I realize how silly
     this is, and this behavior will likely change (with a deprecation of this
     env-var, so don't worry about this falling out from under your feet.)
 
 *HOME*::
-	The location of one's home directory, such that ~/ will be expanded
-	to /home/user/
+	The location of the user's home directory, such that ~/ will be 
+	expanded to /home/user/
 
 EXAMPLE
 -------
